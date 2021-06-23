@@ -123,7 +123,7 @@ function EnhancedTableHead(props) {
                 {headCells.map((headCell) => (
                     <TableCell
                         key={headCell.id}
-                        align={headCell.numeric ? 'right' : 'left'}
+                        align='center'
                         padding={headCell.disablePadding ? 'none' : 'normal'}
                         sortDirection={orderBy === headCell.id ? order : false}
                     >
@@ -185,7 +185,7 @@ const EnhancedTableToolbar = (props) => {
                     id="tableTitle"
                     component="div"
                 >
-                    Nutrition
+                    Scan Table
                 </Typography>
             )}
 
@@ -195,13 +195,8 @@ const EnhancedTableToolbar = (props) => {
                         <DeleteIcon />
                     </IconButton>
                 </Tooltip>
-            ) : (
-                <Tooltip title="Filter list">
-                    <IconButton>
-                        <FilterListIcon />
-                    </IconButton>
-                </Tooltip>
-            )}
+            ) : null
+            }
         </Toolbar>
     );
 };
@@ -324,7 +319,7 @@ export default function EnhancedTable() {
                                             >
                                                 {row.id}
                                             </TableCell>
-                                            <TableCell align="right">
+                                            <TableCell align="center">
                                                 {
                                                     row.state == 'Active' ?
                                                         <Chip label={row.state} style={{ backgroundColor: '#dbf3e5' }} />
@@ -332,9 +327,9 @@ export default function EnhancedTable() {
                                                         <Chip label={row.state} />
                                                 }
                                             </TableCell>
-                                            <TableCell align="right">{row.scanningRegions}</TableCell>
-                                            <TableCell align="right">{row.zones}</TableCell>
-                                            <TableCell align="right"><DownloadIcon /></TableCell>
+                                            <TableCell align="center">{row.scanningRegions}</TableCell>
+                                            <TableCell align="center">{row.zones}</TableCell>
+                                            <TableCell align="center"><DownloadIcon /></TableCell>
                                         </TableRow>
                                     );
                                 })}
