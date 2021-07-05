@@ -5,12 +5,29 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux'
 import store from './store'
+import firebase from "firebase/app";
+import "firebase/auth";
+import "firebase/firestore";
+import { ReactReduxFirebaseProvider } from "react-redux-firebase";
+import firebaseConfig from './config/config';
 
+const rrfConfig = {
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const rrfProps = {
+  firebase,
+  config: rrfConfig,
+  dispatch: store.dispatch,
+};
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <ReactReduxFirebaseProvider {...rrfProps}>
+        <App />
+      </ReactReduxFirebaseProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

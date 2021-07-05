@@ -19,7 +19,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import { visuallyHidden } from '@material-ui/utils';
 import Switch from '@material-ui/core/Switch';
-import DeleteIcon from '@material-ui/icons/Delete';
+import BlockIcon from '@material-ui/icons/Block';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import DownloadIcon from '@material-ui/icons/Download';
 import { Chip } from '@material-ui/core';
@@ -192,7 +192,7 @@ const EnhancedTableToolbar = (props) => {
             {numSelected > 0 ? (
                 <Tooltip title="Delete">
                     <IconButton>
-                        <DeleteIcon />
+                        <BlockIcon />
                     </IconButton>
                 </Tooltip>
             ) : null
