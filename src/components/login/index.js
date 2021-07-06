@@ -16,6 +16,7 @@ function Login() {
     const history = useHistory()
 
     const checkEmailState = useSelector(state => state.authstatus.email)
+    const signInError = useSelector(state => state.authstatus.signIn.error)
 
     const [state, setstate] = useState({
         email: '',
@@ -25,8 +26,12 @@ function Login() {
         passwordErrorMsg: ''
     })
 
+    const [showSnackBar, setShowSnackbar] = useState(false)
 
     useEffect(() => {
+        if (signInError) setShowSnackbar(true)
+        else setShowSnackbar(false)
+
         if (checkEmailState.error) {
             setstate({
                 ...state,
@@ -40,7 +45,7 @@ function Login() {
                 correctEmailFormat: true
             })
         }
-    }, [checkEmailState])
+    }, [checkEmailState, signInError])
 
     const handleChange = (e) => {
         setstate({
@@ -64,7 +69,9 @@ function Login() {
         }
     }
 
-   
+    const handleCloseSnackBar = () => {
+        setShowSnackbar(false)
+    }
 
     const onBlurPassword = (e) => {
         if (e.target.value === '') {
@@ -147,7 +154,15 @@ function Login() {
                     </Stack>
                 </Paper>
             </Box>
-            
+            {
+                showSnackBar && (
+                    <Snackbar open={showSnackBar} autoHideDuration={6000} onClose={handleCloseSnackBar} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
+                        <Alert onClose={handleCloseSnackBar} severity="error" sx={{ width: '100%' }}>
+                            {signInError}
+                        </Alert>
+                    </Snackbar>
+                )
+            }
         </div >
     )
 }
