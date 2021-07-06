@@ -1,1 +1,1 @@
-export {signin} from './authActions'
+export { signin, checkemail } from './authActions'
