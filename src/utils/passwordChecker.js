@@ -4,7 +4,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import { Stack, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 
-function PasswordChecker({ password }) {
+function PasswordChecker({ password, checkPasswordStrength }) {
 
     const [score, setScore] = useState('')
     const [color, setColor] = useState('error')
@@ -32,6 +32,7 @@ function PasswordChecker({ password }) {
             case 100:
                 setMsg('')
                 setColor('success')
+                checkPasswordStrength(true)
                 break;
             default:
                 break;
@@ -43,7 +44,7 @@ function PasswordChecker({ password }) {
         <>
             {
                 password && password.length > 0 && (
-                    <Stack style={{ marginTop: '20px' }} sx={{ maxWidth: '400px' }}>
+                    <Stack style={{ marginTop: '10px' }} sx={{ maxWidth: '400px' }}>
                         <Typography color={fontColor} fontSize="16px" fontWeight='bold' textAlign="right">
                             {msg}
                         </Typography>
@@ -59,7 +60,8 @@ function PasswordChecker({ password }) {
 }
 
 PasswordChecker.propTypes = {
-    password: PropTypes.string
+    password: PropTypes.string,
+    checkPasswordStrength: PropTypes.func
 };
 
 export default PasswordChecker

@@ -11,7 +11,8 @@ const initState = {
     },
     signUp: {
         isloading: false,
-        error: null
+        error: null,
+        isSuccess: false
     }
 }
 
@@ -64,7 +65,8 @@ const authReducer = (state = initState, action) => {
             return {
                 ...state,
                 signUp: {
-                    ...state.signUp,
+                    isSuccess: false,
+                    error: null,
                     isloading: true
                 }
             }
@@ -72,6 +74,7 @@ const authReducer = (state = initState, action) => {
             return {
                 ...state,
                 signUp: {
+                    ...state.signUp,
                     isloading: false,
                     error: action.payload
                 }
@@ -82,6 +85,7 @@ const authReducer = (state = initState, action) => {
                 signUp: {
                     ...state.signUp,
                     isloading: false,
+                    isSuccess: true
                 }
             }
         default:

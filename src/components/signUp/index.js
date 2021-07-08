@@ -14,12 +14,15 @@ function SignUp() {
     const dispatch = useDispatch()
     const checkEmailState = useSelector(state => state.authstatus.email)
     const signUpError = useSelector(state => state.authstatus.signUp.error)
+    const signUpSuccess = useSelector(state => state.authstatus.signUp.isSuccess)
 
     const [showSnackBar, setShowSnackbar] = useState(false)
     const [errMsgForSnackBar, setErrMsgForSnackBar] = useState({
         msg: '',
         color: 'error'
     })
+    const [isStrongPassword, setIsStrongPassword] = useState(false)
+
     const theme = useTheme();
     const IsMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -48,7 +51,7 @@ function SignUp() {
         if (signUpError) {
             setErrMsgForSnackBar({
                 color: 'error',
-                msg: 'Sign Up Failed'
+                msg: `${signUpError}`
             })
             setShowSnackbar(true)
         }
@@ -71,6 +74,19 @@ function SignUp() {
         }
     }, [checkEmailState, signUpError])
 
+    useEffect(() => {
+        if (signUpSuccess) {
+            setErrMsgForSnackBar({
+                color: 'success',
+                msg: 'Successfully Registered, Please verfiy your email'
+            })
+            setShowSnackbar(true)
+        }
+        else {
+            setShowSnackbar(false)
+        }
+    }, [signUpSuccess])
+
     const checkEmail = (e) => {
         if (e.target.value) {
             checkemail({ email: e.target.value })(dispatch)
@@ -80,6 +96,10 @@ function SignUp() {
                 email: 'Email Is Empty'
             })
         }
+    }
+
+    const checkPasswordStrength = (val) => {
+        setIsStrongPassword(val)
     }
 
     const checkFieldIsEmpty = (e) => {
@@ -107,8 +127,6 @@ function SignUp() {
     }
 
     const handleSubmit = () => {
-        console.log(errorState)
-
         if (state.accept === true) {
             let errorKeyList = Object.keys(errorState)
             let ErrorFlag = false
@@ -119,7 +137,6 @@ function SignUp() {
                     }
                 }
             })
-
             if (ErrorFlag == true) {
                 setErrMsgForSnackBar({
                     color: 'error',
@@ -128,9 +145,22 @@ function SignUp() {
                 setShowSnackbar(true)
             }
             else {
-                //signup(state)(dispatch)
+
+                if (isStrongPassword === true) {
+                    let userDetails = state
+                    delete userDetails['accept']
+                    console.log("sign up started")
+                    signup(userDetails)(dispatch)
+                } else {
+                    setErrMsgForSnackBar({
+                        color: 'error',
+                        msg: 'Please use a strong password'
+                    })
+                    setShowSnackbar(true)
+                }
+
             }
-        } else if (state.accept === false) {
+        } else {
             setErrMsgForSnackBar({
                 color: 'error',
                 msg: 'Please agree with the terms'
@@ -262,10 +292,10 @@ function SignUp() {
                                     />
                                 </Stack>
                                 <Stack>
-                                    <PasswordChecker password={state.password} />
+                                    <PasswordChecker password={state.password} checkPasswordStrength={checkPasswordStrength} />
                                 </Stack>
                                 <div style={{ marginTop: '10px', textAlign: 'left' }}>
-                                    <FormControlLabel control={<Checkbox onChange={handleChange} name="accept" />} label="I agree with Terms and Services" />
+                                    <FormControlLabel control={<Checkbox onChange={handleChange} name="accept" value={state.accept} />} label="I agree with Terms and Services" />
                                 </div>
                             </Stack>
                             <Button variant="outlined" style={{ margin: '15px 0px 10px 0px' }} onClick={handleSubmit}>Sign Up</Button>

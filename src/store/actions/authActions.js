@@ -57,7 +57,7 @@ export const signup = (details) => async dispatch => {
         console.log(err.response.data.message)
         dispatch({
             type: actions.SIGNUP_FAIL,
-            payload: err.response.data.message && err.response.data.message._schema[0]
+            payload: err.response.data.message
         });
     }
 };
