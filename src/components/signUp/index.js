@@ -6,6 +6,7 @@ import { useTheme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { signup } from '../../store/actions';
 import { useDispatch, useSelector } from 'react-redux'
+import PasswordChecker from '../../utils/passwordChecker';
 
 function SignUp() {
 
@@ -117,6 +118,9 @@ function SignUp() {
                                         name="reenteredPassword"
                                     //onChange={handleChange}
                                     />
+                                </Stack>
+                                <Stack>
+                                    <PasswordChecker password={state.password} />
                                 </Stack>
                                 <div style={{ marginTop: '10px', textAlign: 'left' }}>
                                     <FormControlLabel control={<Checkbox defaultChecked />} label="I agree with Terms and Services" />
