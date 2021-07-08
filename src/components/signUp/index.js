@@ -1,5 +1,5 @@
 import { Box, Paper, Stack, Typography, Button, Divider, FormControlLabel, Checkbox } from '@material-ui/core'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Navbar from '../layout/navbar'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
@@ -7,10 +7,12 @@ import TextField from '@material-ui/core/TextField';
 import { signup } from '../../store/actions';
 import { useDispatch, useSelector } from 'react-redux'
 import PasswordChecker from '../../utils/passwordChecker';
+import { checkemail } from '../../store/actions';
 
 function SignUp() {
 
     const dispatch = useDispatch()
+    const checkEmailState = useSelector(state => state.authstatus.email)
 
     const theme = useTheme();
     const IsMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -24,6 +26,50 @@ function SignUp() {
         password: '',
         //reenteredPassword: ''
     })
+
+    const [errorState, setErrorState] = useState({
+        full_name: '',
+        email: '',
+        organization: '',
+        profession: '',
+        reason: '',
+        password: '',
+        correctEmailFormat: false,
+    })
+
+    useEffect(() => {
+        /* if (signInError) setShowSnackbar(true)
+        else setShowSnackbar(false) */
+
+        if (checkEmailState.error) {
+            setErrorState({
+                ...errorState,
+                email: checkEmailState.error,
+                correctEmailFormat: true
+            })
+        } else if (checkEmailState.correct) {
+            setErrorState({
+                ...errorState,
+                email: '',
+                correctEmailFormat: true
+            })
+        }
+    }, [checkEmailState])
+
+    const checkEmail = (e) => {
+        if (e.target.value !== '') {
+            checkemail({ email: e.target.value })(dispatch)
+        } else {
+            setErrorState({
+                ...errorState,
+                email: 'Email Is Empty'
+            })
+        }
+    }
+
+    const checkFieldIsEmpty = (e) => {
+
+    }
 
     const handleChange = (e) => {
         setstate({
@@ -57,7 +103,7 @@ function SignUp() {
                             <Typography variant="h5" >Sign Up</Typography>
                         </div>
                         <Box sx={{ padding: '15px', width: '90%' }} alignItems='center'>
-                            <Stack>
+                            <Stack spacing={1}>
                                 <TextField
                                     id="standard-basic"
                                     label="Full Name"
@@ -67,12 +113,15 @@ function SignUp() {
                                     onChange={handleChange}
                                 />
                                 <TextField
-                                    id="standard-basic"
                                     label="Email"
                                     variant="standard"
-                                    fullWidth
                                     name="email"
+                                    color={errorState.correctEmailFormat ? 'success' : 'primary'}
+                                    error={errorState.email.length > 0 ? true : false}
+                                    helperText={errorState.email}
                                     onChange={handleChange}
+                                    onBlur={checkEmail}
+                                    style={{maxWidth:'420px'}}
                                 />
                                 <Stack direction={{ xs: 'column', sm: 'row' }} columnGap={3}>
                                     <TextField
