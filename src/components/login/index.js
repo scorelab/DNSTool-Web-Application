@@ -15,15 +15,16 @@ function Login() {
     const firebase = useFirebase()
     const history = useHistory()
 
-    const checkEmailState = useSelector(state => state.authstatus.email)
     const signInError = useSelector(state => state.authstatus.signIn.error)
 
     const [state, setstate] = useState({
         email: '',
         password: '',
-        emailErrorMsg: '',
-        correctEmailFormat: false,
-        passwordErrorMsg: ''
+    })
+
+    const [errorstate, setErrorState] = useState({
+        email: '',
+        password: ''
     })
 
     const [showSnackBar, setShowSnackbar] = useState(false)
@@ -31,21 +32,7 @@ function Login() {
     useEffect(() => {
         if (signInError) setShowSnackbar(true)
         else setShowSnackbar(false)
-
-        if (checkEmailState.error) {
-            setstate({
-                ...state,
-                emailErrorMsg: checkEmailState.error,
-                correctEmailFormat: true
-            })
-        } else if (checkEmailState.correct) {
-            setstate({
-                ...state,
-                emailErrorMsg: '',
-                correctEmailFormat: true
-            })
-        }
-    }, [checkEmailState, signInError])
+    }, [signInError])
 
     const handleChange = (e) => {
         setstate({
@@ -55,35 +42,24 @@ function Login() {
     }
 
     const handleSubmit = () => {
-        if (state.emailErrorMsg.length === 0 || state.passwordErrorMsg === 0) signin(state.email, state.password, firebase, history)(dispatch)
-    }
-
-    const checkEmail = (e) => {
-        if (e.target.value !== '') {
-            checkemail({ email: e.target.value })(dispatch)
-        } else {
-            setstate({
-                ...state,
-                emailErrorMsg: 'Email Is Empty'
-            })
-        }
+        if (errorstate.email.length === 0 || errorstate.password.length === 0) signin(state.email, state.password, firebase, history)(dispatch)
     }
 
     const handleCloseSnackBar = () => {
         setShowSnackbar(false)
     }
 
-    const onBlurPassword = (e) => {
-        if (e.target.value === '') {
-            setstate({
-                ...state,
-                passwordErrorMsg: 'Password Is Empty'
-            })
+    const checkFieldIsEmpty = (e) => {
+        if (e.target.value.length === 0) {
+            setErrorState({
+                ...errorstate,
+                [e.target.name]: `${e.target.id} is Empty`
+            });
         } else {
-            setstate({
-                ...state,
-                passwordErrorMsg: ''
-            })
+            setErrorState({
+                ...errorstate,
+                [e.target.name]: ''
+            });
         }
     }
 
@@ -113,25 +89,26 @@ function Login() {
 
                         <Stack alignItems='center' spacing={1} >
                             <TextField
+                                id="Email"
                                 label="Email"
                                 variant="standard"
                                 name="email"
-                                color={state.correctEmailFormat ? 'success' : 'primary'}
-                                error={state.emailErrorMsg.length > 0 ? true : false}
-                                helperText={state.emailErrorMsg}
+                                error={errorstate.email.length > 0 ? true : false}
+                                helperText={errorstate.email}
                                 sx={{ width: '260px' }}
                                 onChange={handleChange}
-                                onBlur={checkEmail}
+                                onBlur={checkFieldIsEmpty}
                             />
                             <TextField
+                                id="Password"
                                 label="Password"
                                 variant="standard"
                                 name="password"
                                 sx={{ width: '260px' }}
-                                error={state.passwordErrorMsg.length > 0 ? true : false}
-                                helperText={state.passwordErrorMsg}
+                                error={errorstate.password.length > 0 ? true : false}
+                                helperText={errorstate.password}
                                 onChange={handleChange}
-                                onBlur={onBlurPassword}
+                                onBlur={checkFieldIsEmpty}
                             />
                         </Stack>
                         <div>
