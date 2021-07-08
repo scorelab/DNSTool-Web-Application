@@ -37,7 +37,7 @@ export const checkemail = (email) => async dispatch => {
     } catch (err) {
         dispatch({
             type: actions.CHECK_EMAIL_FAIL,
-            payload: err.response.data.message._schema[0]
+            payload: err.response.data.message && err.response.data.message._schema[0]
         });
     }
 };
