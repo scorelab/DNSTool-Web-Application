@@ -41,3 +41,23 @@ export const checkemail = (email) => async dispatch => {
         });
     }
 };
+
+export const signup = (details) => async dispatch => {
+    dispatch({ type: actions.SIGNUP_START });
+    const config = {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    };
+
+    try {
+        const response = await axios.post('/register', details, config);
+        dispatch({ type: actions.SIGNUP_SUCCESS });
+    } catch (err) {
+        console.log(err.response.data.message)
+        dispatch({
+            type: actions.SIGNUP_FAIL,
+            payload: err.response.data.message && err.response.data.message._schema[0]
+        });
+    }
+};

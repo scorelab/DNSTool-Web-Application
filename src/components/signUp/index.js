@@ -1,14 +1,39 @@
-import {  Box, Paper, Stack, Typography, Button, Divider, FormControlLabel, Checkbox } from '@material-ui/core'
-import React from 'react'
+import { Box, Paper, Stack, Typography, Button, Divider, FormControlLabel, Checkbox } from '@material-ui/core'
+import React, { useState } from 'react'
 import Navbar from '../layout/navbar'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import { signup } from '../../store/actions';
+import { useDispatch, useSelector } from 'react-redux'
 
 function SignUp() {
 
+    const dispatch = useDispatch()
+
     const theme = useTheme();
     const IsMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+    const [state, setstate] = useState({
+        full_name: '',
+        email: '',
+        organization: '',
+        profession: '',
+        reason: '',
+        password: '',
+        //reenteredPassword: ''
+    })
+
+    const handleChange = (e) => {
+        setstate({
+            ...state,
+            [e.target.name]: e.target.value
+        });
+    }
+
+    const handleSubmit = () => {
+        signup(state)(dispatch)
+    }
 
     return (
         <div style={{ backgroundColor: '#f0f2f5', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -22,7 +47,7 @@ function SignUp() {
                         minWidth: '100px',
                         minHeight: '350px',
                     },
-                    marginTop: IsMobile?'25px':'80px'
+                    marginTop: IsMobile ? '25px' : '80px'
                 }}
             >
                 <Paper elevation={6} >
@@ -32,11 +57,39 @@ function SignUp() {
                         </div>
                         <Box sx={{ padding: '15px', width: '90%' }} alignItems='center'>
                             <Stack>
-                                <TextField id="standard-basic" label="Full Name" variant="standard" fullWidth />
-                                <TextField id="standard-basic" label="Email" variant="standard" fullWidth />
+                                <TextField
+                                    id="standard-basic"
+                                    label="Full Name"
+                                    variant="standard"
+                                    fullWidth
+                                    name="full_name"
+                                    onChange={handleChange}
+                                />
+                                <TextField
+                                    id="standard-basic"
+                                    label="Email"
+                                    variant="standard"
+                                    fullWidth
+                                    name="email"
+                                    onChange={handleChange}
+                                />
                                 <Stack direction={{ xs: 'column', sm: 'row' }} columnGap={3}>
-                                    <TextField id="standard-basic" label="Organization/Institute" variant="standard" fullWidth />
-                                    <TextField id="standard-basic" label="Profession" variant="standard" fullWidth />
+                                    <TextField
+                                        id="standard-basic"
+                                        label="Organization/Institute"
+                                        variant="standard"
+                                        fullWidth
+                                        name="organization"
+                                        onChange={handleChange}
+                                    />
+                                    <TextField
+                                        id="standard-basic"
+                                        label="Profession"
+                                        variant="standard"
+                                        fullWidth
+                                        name="profession"
+                                        onChange={handleChange}
+                                    />
                                 </Stack>
                                 <TextField
                                     id="standard-multiline-flexible"
@@ -44,16 +97,32 @@ function SignUp() {
                                     multiline
                                     maxRows={4}
                                     variant="standard"
+                                    name="reason"
+                                    onChange={handleChange}
                                 />
                                 <Stack direction={{ xs: 'column', sm: 'row' }} columnGap={3}>
-                                    <TextField id="standard-basic" label="Password" variant="standard" fullWidth />
-                                    <TextField id="standard-basic" label="Reenter Password" variant="standard" fullWidth />
+                                    <TextField
+                                        id="standard-basic"
+                                        label="Password"
+                                        variant="standard"
+                                        fullWidth
+                                        name="password"
+                                        onChange={handleChange}
+                                    />
+                                    <TextField
+                                        id="standard-basic"
+                                        label="Reenter Password"
+                                        variant="standard"
+                                        fullWidth
+                                        name="reenteredPassword"
+                                    //onChange={handleChange}
+                                    />
                                 </Stack>
                                 <div style={{ marginTop: '10px', textAlign: 'left' }}>
                                     <FormControlLabel control={<Checkbox defaultChecked />} label="I agree with Terms and Services" />
                                 </div>
                             </Stack>
-                            <Button variant="outlined" style={{ margin: '15px 0px 10px 0px' }}>Login</Button>
+                            <Button variant="outlined" style={{ margin: '15px 0px 10px 0px' }} onClick={handleSubmit}>Sign Up</Button>
                             <div style={{ width: '95%', padding: '10px 10px 10px 10px' }}>
                                 <Divider>OR</Divider>
                             </div>

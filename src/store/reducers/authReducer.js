@@ -8,11 +8,16 @@ const initState = {
     email: {
         error: null,
         correct: false,
+    },
+    signUp: {
+        isloading: false,
+        error: null
     }
 }
 
 const authReducer = (state = initState, action) => {
     switch (action.type) {
+        //Sign In
         case actions.SIGNIN_START:
             return {
                 ...state,
@@ -37,6 +42,7 @@ const authReducer = (state = initState, action) => {
                     isloading: false,
                 }
             }
+        //Check Mail
         case actions.CHECK_EMAIL_FAIL:
             return {
                 ...state,
@@ -51,6 +57,31 @@ const authReducer = (state = initState, action) => {
                 email: {
                     error: null,
                     correct: true
+                }
+            }
+        //Sign Up
+        case actions.SIGNUP_START:
+            return {
+                ...state,
+                signUp: {
+                    ...state.signUp,
+                    isloading: true
+                }
+            }
+        case actions.SIGNUP_FAIL:
+            return {
+                ...state,
+                signUp: {
+                    isloading: false,
+                    error: action.payload
+                }
+            }
+        case actions.SIGNUP_SUCCESS:
+            return {
+                ...state,
+                signUp: {
+                    ...state.signUp,
+                    isloading: false,
                 }
             }
         default:
