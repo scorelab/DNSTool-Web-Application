@@ -32,7 +32,7 @@ export const checkemail = (email) => async dispatch => {
     };
 
     try {
-        const response = await axios.post('/check-email', email, config);
+        await axios.post('/check-email', email, config);
         dispatch({ type: actions.CHECK_EMAIL_SUCCESS });
     } catch (err) {
         dispatch({
@@ -51,7 +51,7 @@ export const signup = (details) => async dispatch => {
     };
 
     try {
-        const response = await axios.post('/register', details, config);
+        await axios.post('/register', details, config);
         dispatch({ type: actions.SIGNUP_SUCCESS });
     } catch (err) {
         console.log(err.response.data.message)

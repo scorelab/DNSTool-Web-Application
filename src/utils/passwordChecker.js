@@ -11,8 +11,13 @@ function PasswordChecker({ password, checkPasswordStrength }) {
     const [fontColor, setFontColor] = useState('red')
     const [msg, setMsg] = useState('Password is short')
 
-    useEffect(async () => {
-        await setScore(zxcvbn(password).score * 25)
+    useEffect(() => {
+
+        async function settingUpScore() {
+            await setScore(zxcvbn(password).score * 25)
+        }
+
+        settingUpScore();
 
         switch (score) {
             case 25:
@@ -29,6 +34,7 @@ function PasswordChecker({ password, checkPasswordStrength }) {
                 setMsg('Password is weak')
                 setFontColor('yellow')
                 setColor('warning')
+                break;
             case 100:
                 setMsg('')
                 setColor('success')

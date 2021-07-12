@@ -1,6 +1,6 @@
 import React from 'react'
 import Dialog from '@material-ui/core/Dialog';
-import { DialogContent, Grid } from '@material-ui/core';
+import { DialogContent } from '@material-ui/core';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 import CreateScanBig from './createScanBig';

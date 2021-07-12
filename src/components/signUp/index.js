@@ -137,7 +137,7 @@ function SignUp() {
                     }
                 }
             })
-            if (ErrorFlag == true) {
+            if (ErrorFlag === true) {
                 setErrMsgForSnackBar({
                     color: 'error',
                     msg: 'Please Fill All of the Fields'

@@ -1,7 +1,6 @@
 import React from 'react'
 import Navbar from '../layout/navbar'
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
 import NewsCard from '../newsCard';
 import ScanTable from '../scanTable';
 import Scanbuttons from './Scanbuttons';

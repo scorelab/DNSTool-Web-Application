@@ -15,12 +15,9 @@ import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import { visuallyHidden } from '@material-ui/utils';
-import Switch from '@material-ui/core/Switch';
 import BlockIcon from '@material-ui/icons/Block';
-import FilterListIcon from '@material-ui/icons/FilterList';
 import DownloadIcon from '@material-ui/icons/Download';
 import { Chip } from '@material-ui/core';
 
@@ -315,7 +312,7 @@ export default function EnhancedTable() {
                                             </TableCell>
                                             <TableCell align="center">
                                                 {
-                                                    row.state == 'Active' ?
+                                                    row.state === 'Active' ?
                                                         <Chip label={row.state} style={{ backgroundColor: '#dbf3e5' }} />
                                                         :
                                                         <Chip label={row.state} />
