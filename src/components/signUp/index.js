@@ -272,6 +272,7 @@ function SignUp() {
                                         id="Password"
                                         label="Password"
                                         variant="standard"
+                                        type="Password"
                                         fullWidth
                                         name="password"
                                         error={errorState.password.length > 0 ? true : false}

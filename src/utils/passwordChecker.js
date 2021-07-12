@@ -22,17 +22,17 @@ function PasswordChecker({ password, checkPasswordStrength }) {
         switch (score) {
             case 25:
                 setMsg('Password is short')
-                setFontColor('red')
+                setFontColor('darkred')
                 setColor('error')
                 break;
             case 50:
                 setMsg('Password is weak')
-                setFontColor('darkred')
+                setFontColor('red')
                 setColor('warning')
                 break;
             case 75:
                 setMsg('Password is weak')
-                setFontColor('yellow')
+                setFontColor('orange')
                 setColor('warning')
                 break;
             case 100:
