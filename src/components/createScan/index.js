@@ -6,18 +6,18 @@ import { useTheme } from '@material-ui/core/styles';
 import CreateScanBig from './createScanBig';
 import CreateScanSmall from './createScanSmall';
 
-const dialogStyle = {
-    width: '90%',
-    minHeight: 400,
-    display: 'flex',
-    justifyContent: 'center'
-}
-
 function CreateScanModal({ open, handleClose }) {
 
     const theme = useTheme();
     const IsMobileOrTable = useMediaQuery(theme.breakpoints.down('md'));
 
+    const dialogStyle = {
+        maxWidth: IsMobileOrTable?'90%':'540px',
+        minHeight: 400,
+        display: 'flex',
+        justifyContent: 'center'
+    }
+    
     return (
         <>
             <Dialog

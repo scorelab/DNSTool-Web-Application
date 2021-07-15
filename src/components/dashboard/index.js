@@ -6,6 +6,7 @@ import ScanTable from '../scanTable';
 import Scanbuttons from './Scanbuttons';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
+import SecondaryNavbar from '../layout/secondaryNavbar';
 
 function Dashboard() {
 
@@ -15,6 +16,7 @@ function Dashboard() {
     return (
         <>
             <Navbar />
+            <SecondaryNavbar />
             <Grid container spacing={2} style={{ padding: !isMobile ? '10px 30px 0px 70px' : '10px 20px' }}>
                 <Grid item xs={12} md={9} >
                     <div style={{ display: 'flex', flexDirection: 'column' }}>

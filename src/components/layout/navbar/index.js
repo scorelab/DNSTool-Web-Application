@@ -19,13 +19,11 @@ function Navbar() {
 
     const classes = useStyles();
 
-    const [openCreateScanModal, setOpenCreateScanModal] = useState(false)
-    const handleOpen = () => setOpenCreateScanModal(true);
-    const handleClose = () => setOpenCreateScanModal(false);
+
 
     return (
         <>
-            <AppBar position="static" style={{ display: 'flex' }}>
+            <AppBar position="static" sx={{ display: 'flex',height:'45px',justifyContent:'center' }} elevation={0} >
                 <Toolbar>
                     <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
                         <MenuIcon />
@@ -33,8 +31,8 @@ function Navbar() {
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1, textAlign: 'left' }}>
                         DNS-IP
                     </Typography>
-                    <Button onClick={handleOpen} className={classes.button} variant="outlined" >Create Scan</Button>
-                    <CreateScanModal open={openCreateScanModal} handleClose={handleClose} />
+                    {/* <Button onClick={handleOpen} className={classes.button} variant="outlined" >Create Scan</Button>
+                    <CreateScanModal open={openCreateScanModal} handleClose={handleClose} /> */}
                 </Toolbar>
             </AppBar>
         </>
