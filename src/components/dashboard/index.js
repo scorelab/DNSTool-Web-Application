@@ -18,14 +18,11 @@ function Dashboard() {
             <Navbar />
             <SecondaryNavbar />
             <Grid container spacing={2} style={{ padding: !isMobile ? '10px 30px 0px 70px' : '10px 20px' }}>
-                <Grid item xs={12} md={9} >
+                <Grid item xs={12}  >
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
                         <Scanbuttons />
                         <ScanTable />
                     </div>
-                </Grid>
-                <Grid item xs={12} md={3} justifyContent='center' alignItems='center'>
-                    <NewsCard />
                 </Grid>
             </Grid>
         </>

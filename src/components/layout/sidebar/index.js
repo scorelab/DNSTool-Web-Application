@@ -22,7 +22,7 @@ function CustomDrawer({ isOpen, open, close }) {
             role="presentation"
         >
             <List>
-                {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+                {['Pasive DNS Collector'/* 'Starred', 'Send email', 'Drafts' */].map((text, index) => (
                     <ListItem button key={text}>
                         <ListItemIcon>
                             {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
@@ -32,7 +32,7 @@ function CustomDrawer({ isOpen, open, close }) {
                 ))}
             </List>
             <Divider />
-            <List>
+            {/* <List>
                 {['All mail', 'Trash', 'Spam'].map((text, index) => (
                     <ListItem button key={text}>
                         <ListItemIcon>
@@ -41,7 +41,7 @@ function CustomDrawer({ isOpen, open, close }) {
                         <ListItemText primary={text} />
                     </ListItem>
                 ))}
-            </List>
+            </List> */}
         </Box>
     );
 
