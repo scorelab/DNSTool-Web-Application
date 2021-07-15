@@ -67,9 +67,8 @@ function Login() {
     const IsMobile = useMediaQuery(theme.breakpoints.down('md'));
 
     return (
-        <div style={{ backgroundColor: '#f0f2f5', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <Navbar />
-
+        <div style={{  minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+           
             <Box
                 sx={{
                     display: 'flex',
@@ -81,20 +80,21 @@ function Login() {
                     marginTop: '100px'
                 }}
             >
-                <Paper elevation={6} >
+                <Paper elevation={2} >
                     <Stack spacing={1} alignItems='center'>
-                        <div style={{ width: '100%', backgroundColor: 'rgba(9, 109, 217, 0.33)', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <Typography variant="h5" >Login</Typography>
-                        </div>
+                       {/*  <div style={{ width: '100%', backgroundColor: 'rgba(9, 109, 217, 0.33)', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}> */}
+                            <Typography variant="h5" style={{marginTop:'10px'}} >Login</Typography>
+                      {/*   </div> */}
 
-                        <Stack alignItems='center' spacing={1} >
+                        <Stack alignItems='center' spacing={2} style={{marginTop:'20px'}}>
                             <TextField
                                 id="Email"
                                 label="Email"
-                                variant="standard"
+                                variant="outlined"
                                 name="email"
                                 error={errorstate.email.length > 0 ? true : false}
                                 helperText={errorstate.email}
+                                size="small"
                                 sx={{ width: '260px' }}
                                 onChange={handleChange}
                                 onBlur={checkFieldIsEmpty}
@@ -102,9 +102,10 @@ function Login() {
                             <TextField
                                 id="Password"
                                 label="Password"
-                                variant="standard"
+                                variant="outlined"
                                 name="password"
                                 sx={{ width: '260px' }}
+                                size="small"
                                 error={errorstate.password.length > 0 ? true : false}
                                 helperText={errorstate.password}
                                 onChange={handleChange}
@@ -116,7 +117,7 @@ function Login() {
                         </div>
 
                         <Button
-                            variant="outlined"
+                            variant="contained"
                             style={{ margin: '30px 0px 10px 0px' }}
                             onClick={handleSubmit}
                         >Login</Button>
