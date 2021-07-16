@@ -1,23 +1,21 @@
 import './App.css';
-import Dashboard from './components/dashboard';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route
-} from "react-router-dom";
-import Login from './components/login';
-import SignUp from './components/signUp';
+import { useSelector } from 'react-redux'
+import { isLoaded } from 'react-redux-firebase'
+import Spinner from './auth/spinner';
+import Routes from './routes';
+
+function AuthIsLoaded({ children }) {
+  const auth = useSelector(state => state.firebase.auth)
+  if (!isLoaded(auth)) return <Spinner />;
+  return children
+}
 
 function App() {
   return (
     <div className="App">
-      <Router>
-        <Switch>
-          <Route exact path="/dashboard" component={Dashboard} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/signup" component={SignUp} />
-        </Switch>
-      </Router>
+      <AuthIsLoaded>
+        <Routes />
+      </AuthIsLoaded>
     </div>
   );
 }

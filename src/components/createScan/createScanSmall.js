@@ -1,7 +1,6 @@
 import React from 'react'
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import Dialog from '@material-ui/core/Dialog';
 import { Grid } from '@material-ui/core';
 import Stack from '@material-ui/core/Stack';
 import TextField from '@material-ui/core/TextField';
