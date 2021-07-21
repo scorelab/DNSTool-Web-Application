@@ -188,8 +188,8 @@ function SignUp() {
     }
 
     return (
-        <div style={{ backgroundColor: '#f0f2f5', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <Navbar />
+        <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+
             <Box
                 sx={{
                     display: 'flex',
@@ -202,17 +202,18 @@ function SignUp() {
                     marginTop: IsMobile ? '25px' : '80px'
                 }}
             >
-                <Paper elevation={6} >
+                <Paper elevation={2} >
                     <Stack spacing={1} alignItems='center'>
-                        <div style={{ width: '100%', backgroundColor: 'rgba(9, 109, 217, 0.33)', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <Typography variant="h5" >Sign Up</Typography>
-                        </div>
+                        {/*  <div style={{ width: '100%', backgroundColor: 'rgba(9, 109, 217, 0.33)', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}> */}
+                        <Typography variant="h5" style={{marginTop:'20px'}}>Sign Up</Typography>
+                        {/* </div> */}
                         <Box sx={{ padding: '15px', width: '90%' }} alignItems='center'>
                             <Stack spacing={1}>
                                 <TextField
                                     id="Full Name"
                                     label="Full Name"
-                                    variant="standard"
+                                    variant="outlined"
+                                    size="small"
                                     fullWidth
                                     name="full_name"
                                     error={errorState.full_name.length > 0 ? true : false}
@@ -222,20 +223,23 @@ function SignUp() {
                                 />
                                 <TextField
                                     label="Email"
-                                    variant="standard"
+                                    variant="outlined"
+                                    size="small"
                                     name="email"
                                     color={errorState.correctEmailFormat ? 'success' : 'primary'}
                                     error={errorState.email.length > 0 ? true : false}
                                     helperText={errorState.email}
                                     onChange={handleChange}
                                     onBlur={checkEmail}
-                                    style={{ maxWidth: '420px' }}
+                                    fullWidth
+                                    /* style={{ maxWidth: '420px' }} */
                                 />
-                                <Stack direction={{ xs: 'column', sm: 'row' }} columnGap={3}>
+                                <Stack direction={{ xs: 'column', sm: 'row' }} columnGap={1} rowGap={1}>
                                     <TextField
                                         id="Organisation/Institute"
                                         label="Organization/Institute"
-                                        variant="standard"
+                                        variant="outlined"
+                                        size="small"
                                         fullWidth
                                         name="organization"
                                         onBlur={checkFieldIsEmpty}
@@ -246,7 +250,8 @@ function SignUp() {
                                     <TextField
                                         id="Profession"
                                         label="Profession"
-                                        variant="standard"
+                                        variant="outlined"
+                                        size="small"
                                         fullWidth
                                         name="profession"
                                         error={errorState.profession.length > 0 ? true : false}
@@ -260,18 +265,20 @@ function SignUp() {
                                     label="Reason"
                                     multiline
                                     maxRows={4}
-                                    variant="standard"
+                                    variant="outlined"
+                                    size="small"
                                     onBlur={checkFieldIsEmpty}
                                     error={errorState.reason.length > 0 ? true : false}
                                     name="reason"
                                     onChange={handleChange}
                                     helperText={errorState.reason}
                                 />
-                                <Stack direction={{ xs: 'column', sm: 'row' }} columnGap={3}>
+                                <Stack direction={{ xs: 'column', sm: 'row' }} columnGap={1} rowGap={1}>
                                     <TextField
                                         id="Password"
                                         label="Password"
-                                        variant="standard"
+                                        variant="outlined"
+                                        size="small"
                                         type="Password"
                                         fullWidth
                                         name="password"
@@ -283,7 +290,8 @@ function SignUp() {
                                     <TextField
                                         id="standard-basic"
                                         label="Re Enter Password"
-                                        variant="standard"
+                                        variant="outlined"
+                                        size="small"
                                         fullWidth
                                         helperText={errorState.reEnteredPassword}
                                         error={errorState.reEnteredPassword.length > 0 ? true : false}
@@ -299,7 +307,7 @@ function SignUp() {
                                     <FormControlLabel control={<Checkbox onChange={handleChange} name="accept" value={state.accept} />} label="I agree with Terms and Services" />
                                 </div>
                             </Stack>
-                            <Button variant="outlined" style={{ margin: '15px 0px 10px 0px' }} onClick={handleSubmit}>Sign Up</Button>
+                            <Button variant="contained" style={{ margin: '15px 0px 10px 0px' }} onClick={handleSubmit}>Sign Up</Button>
                             <div style={{ width: '95%', padding: '10px 10px 10px 10px' }}>
                                 <Divider>OR</Divider>
                             </div>
