@@ -17,12 +17,9 @@ function Dashboard() {
         <>
             <Navbar />
             <SecondaryNavbar />
-            <Grid container spacing={2} style={{ padding: !isMobile ? '10px 30px 0px 70px' : '10px 20px' }}>
-                <Grid item xs={12}  >
-                    <div style={{ display: 'flex', flexDirection: 'column' }}>
-                        <Scanbuttons />
+            <Grid container spacing={2} style={{ padding: !isMobile ? '10px 30px 0px 30px' : '10px 20px' }}>
+                <Grid item xs={12} justifyContent='center' sx={{marginTop:'20px'}}>
                         <ScanTable />
-                    </div>
                 </Grid>
             </Grid>
         </>
