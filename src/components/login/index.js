@@ -104,6 +104,7 @@ function Login() {
                                 label="Password"
                                 variant="outlined"
                                 name="password"
+                                type="password"
                                 sx={{ width: '260px' }}
                                 size="small"
                                 error={errorstate.password.length > 0 ? true : false}
