@@ -11,6 +11,11 @@ const initState = {
         data: [],
         error: null,
     },
+    createScan: {
+        isloading: false,
+        message: null,
+        error: null
+    }
 }
 
 const scanReducer = (state = initState, action) => {
@@ -70,7 +75,43 @@ const scanReducer = (state = initState, action) => {
                     error: action.payload
                 }
             }
+        //Create Scan
+        case actions.CREATE_SCAN_START:
+            return {
+                ...state,
+                createScan: {
+                    ...state.createScan,
+                    isloading: true
+                }
+            }
+        case actions.CREATE_SCAN_SUCCESS:
+            return {
+                ...state,
+                createScan: {
+                    ...state.createScan,
+                    isloading: false,
+                    message: action.payload
+                }
+            }
 
+        case actions.CREATE_SCAN_FAIL:
+            return {
+                ...state,
+                createScan: {
+                    ...state.createScan,
+                    isloading: false,
+                    error: action.payload
+                }
+            }
+        case actions.CREATE_SCAN_CLEAR:
+            return {
+                ...state,
+                createScan: {
+                    isloading: false,
+                    error: null,
+                    message: null
+                }
+            }
         default:
             return state
     }

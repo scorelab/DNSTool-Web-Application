@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import { Grid } from '@material-ui/core';
+import { Alert, Grid, Snackbar } from '@material-ui/core';
 import Stack from '@material-ui/core/Stack';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/core/Autocomplete'
@@ -9,9 +9,9 @@ import Button from '@material-ui/core/Button';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import Checkbox from '@material-ui/core/Checkbox';
-
 import { useDispatch, useSelector } from 'react-redux'
-import { getZoneList, getGCPZoneList } from '../../store/actions';
+import { getZoneList, getGCPZoneList, createScan } from '../../store/actions';
+import { useFirebase } from 'react-redux-firebase'
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -21,6 +21,9 @@ function CreateScanBig({ handleClose }) {
     const dispatch = useDispatch()
     const zoneListData = useSelector((state) => state.scanData.zonelist.data)
     const gcpZoneData = useSelector((state) => state.scanData.gcpzones.data)
+    const createScanMsg = useSelector((state) => state.scanData.createScan)
+
+    const firebase = useFirebase()
 
     const getZones = (e) => {
         e.target.value && (e.target.value.length > 0) && getZoneList(e.target.value)(dispatch)
@@ -52,6 +55,10 @@ function CreateScanBig({ handleClose }) {
         })
     }
 
+    const submitForm = () => {
+        createScan(selectedList, firebase)(dispatch)
+        // handleClose()
+    }
 
     useEffect(() => {
         setZoneList(zoneListData)
@@ -60,6 +67,37 @@ function CreateScanBig({ handleClose }) {
     useEffect(() => {
         setGcpZoneList(gcpZoneData)
     }, [gcpZoneData])
+
+    const [open, setOpen] = useState(false);
+    const [snackBarOptions, setSnackbarOptions] = useState({
+        color: 'success',
+        msg: ''
+    })
+
+
+    const handleCloseSnackBar = () => {
+        setOpen(false);
+    };
+
+    useEffect(() => {
+        console.log(createScanMsg)
+        if (createScanMsg.error) {
+            setSnackbarOptions({
+                color: 'error',
+                msg: createScanMsg.error
+            })
+            setOpen(true)
+        } else if (createScanMsg.message) {
+            setSnackbarOptions({
+                color: 'success',
+                msg: createScanMsg.message
+            })
+            setOpen(true)
+            setTimeout(() => {
+                handleClose()
+            }, 3000)
+        }
+    }, [createScanMsg])
 
     return (
         <div>
@@ -133,8 +171,15 @@ function CreateScanBig({ handleClose }) {
                                     )}
                                 />
                             </Stack>
+
+                            <Snackbar open={open} autoHideDuration={6000} onClose={handleCloseSnackBar} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
+                                <Alert onClose={handleCloseSnackBar} severity={snackBarOptions.color} sx={{ width: '100%' }}>
+                                    {snackBarOptions.msg}
+                                </Alert>
+                            </Snackbar>
+
                             <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                <Button variant="contained" style={{ marginLeft: '-40px', width: '90px' }}>OK</Button>
+                                <Button variant="contained" onClick={submitForm} style={{ marginLeft: '-40px', width: '90px' }}>OK</Button>
                                 <Button variant="contained" onClick={handleClose} style={{ marginLeft: '40px' }}>Cancel</Button>
                             </div>
                         </Stack>

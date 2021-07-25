@@ -33,3 +33,33 @@ export const getGCPZoneList = (keyword) => async dispatch => {
     }
 };
 
+export const createScan = (scanDetails, firebase) => async dispatch => {
+    dispatch({ type: actions.CREATE_SCAN_START });
+
+    const token = await firebase.auth().currentUser.getIdToken();
+    const config = {
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        }
+    };
+
+    try {
+        const response = await axios.post('/scans', scanDetails, config);
+        console.log(response)
+        dispatch({
+            type: actions.CREATE_SCAN_SUCCESS,
+            payload: response.data.message
+        });
+    } catch (err) {
+        dispatch({
+            type: actions.CREATE_SCAN_FAIL,
+            payload: err.response.data.message
+        });
+    }finally{
+        dispatch({
+            type: actions.CREATE_SCAN_CLEAR,
+        });
+    }
+};
+
