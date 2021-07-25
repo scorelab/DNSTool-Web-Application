@@ -1,2 +1,2 @@
 export { signin, checkemail, signup } from './authActions'
-export { getZoneList } from './scanActions'
+export { getZoneList, getGCPZoneList } from './scanActions'

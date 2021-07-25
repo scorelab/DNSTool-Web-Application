@@ -37,7 +37,7 @@ const scanReducer = (state = initState, action) => {
             return {
                 ...state,
                 zonelist: {
-                    ...state.signIn,
+                    ...state.zonelist,
                     data: action.payload,
                     isloading: false,
                 }
@@ -47,26 +47,27 @@ const scanReducer = (state = initState, action) => {
             return {
                 ...state,
                 gcpzones: {
-                    ...state.zonelist,
+                    ...state.gcpzones,
                     isloading: true
                 }
             }
+        case actions.GET_GCP_ZONES_SUCCESS:
+            return {
+                ...state,
+                gcpzones: {
+                    ...state.gcpzones,
+                    data: action.payload,
+                    isloading: false,
+                }
+            }
+
         case actions.GET_GCP_ZONES_FAIL:
             return {
                 ...state,
                 gcpzones: {
-                    ...state.zonelist,
+                    ...state.gcpzones,
                     isloading: false,
                     error: action.payload
-                }
-            }
-        case actions.GET_ZONE_LIST_SUCCESS:
-            return {
-                ...state,
-                gcpzones: {
-                    ...state.signIn,
-                    data: action.payload,
-                    isloading: false,
                 }
             }
 

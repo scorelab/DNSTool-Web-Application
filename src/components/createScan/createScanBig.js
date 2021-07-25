@@ -11,38 +11,55 @@ import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import Checkbox from '@material-ui/core/Checkbox';
 
 import { useDispatch, useSelector } from 'react-redux'
-import { getZoneList } from '../../store/actions';
+import { getZoneList, getGCPZoneList } from '../../store/actions';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
-
-const top100Films = [
-    { title: 'The Shawshank Redemption', year: 1994 },
-    { title: 'The Godfather', year: 1972 },
-    { title: 'The Godfather: Part II', year: 1974 },
-    { title: 'The Dark Knight', year: 2008 },
-    { title: '12 Angry Men', year: 1957 },
-    { title: "Schindler's List", year: 1993 },
-    { title: 'Pulp Fiction', year: 1994 },
-    { title: 'The Lord of the Rings: The Return of the King', year: 2003 },
-    { title: 'The Good, the Bad and the Ugly', year: 1966 },
-    { title: 'Fight Club', year: 1999 }
-]
 
 function CreateScanBig({ handleClose }) {
 
     const dispatch = useDispatch()
     const zoneListData = useSelector((state) => state.scanData.zonelist.data)
+    const gcpZoneData = useSelector((state) => state.scanData.gcpzones.data)
 
     const getZones = (e) => {
-        if(e.target.value.length>0) getZoneList(e.target.value)(dispatch)
+        e.target.value && (e.target.value.length > 0) && getZoneList(e.target.value)(dispatch)
+    }
+
+    const getGCPZones = (e) => {
+        e.target.value && (e.target.value.length > 0) && getGCPZoneList(e.target.value)(dispatch)
     }
 
     const [zoneList, setZoneList] = useState([])
+    const [gcpZoneList, setGcpZoneList] = useState([])
+
+    const [selectedList, setSelecteList] = useState({
+        zones: [],
+        regions: []
+    })
+
+    const handleChangeZones = (e, values) => {
+        setSelecteList({
+            ...selectedList,
+            zones: values
+        })
+    }
+
+    const handleChangeRegions = (e, values) => {
+        setSelecteList({
+            ...selectedList,
+            regions: values
+        })
+    }
+
 
     useEffect(() => {
         setZoneList(zoneListData)
     }, [zoneListData])
+
+    useEffect(() => {
+        setGcpZoneList(gcpZoneData)
+    }, [gcpZoneData])
 
     return (
         <div>
@@ -71,6 +88,7 @@ function CreateScanBig({ handleClose }) {
                                     multiple
                                     id="selectZone"
                                     options={zoneList}
+                                    onChange={handleChangeZones}
                                     onInputChange={getZones}
                                     disableCloseOnSelect
                                     getOptionLabel={(option) => option}
@@ -93,10 +111,12 @@ function CreateScanBig({ handleClose }) {
                                 <Autocomplete
                                     multiple
                                     id="selectRegion"
-                                    options={top100Films}
+                                    options={gcpZoneList}
+                                    onInputChange={getGCPZones}
+                                    onChange={handleChangeRegions}
                                     disableCloseOnSelect
-                                    getOptionLabel={(option) => option.title}
-                                    renderOption={(props, option, { selected }) => (
+                                    getOptionLabel={(i) => i}
+                                    renderOption={(props, i, { selected }) => (
                                         <li {...props}>
                                             <Checkbox
                                                 icon={icon}
@@ -104,7 +124,7 @@ function CreateScanBig({ handleClose }) {
                                                 style={{ marginRight: 8 }}
                                                 checked={selected}
                                             />
-                                            {option.title}
+                                            {i}
                                         </li>
                                     )}
                                     style={{ width: 380 }}
