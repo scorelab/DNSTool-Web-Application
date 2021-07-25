@@ -9,7 +9,7 @@ import CreateScanSmall from './createScanSmall';
 function CreateScanModal({ open, handleClose }) {
 
     const theme = useTheme();
-    const IsMobileOrTable = useMediaQuery(theme.breakpoints.down('md'));
+    const IsMobileOrTable = useMediaQuery(theme.breakpoints.down('sm'));
 
     const dialogStyle = {
         maxWidth: IsMobileOrTable?'90%':'540px',

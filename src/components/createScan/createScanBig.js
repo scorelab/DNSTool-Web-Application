@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { Grid } from '@material-ui/core';
@@ -9,6 +9,9 @@ import Button from '@material-ui/core/Button';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import Checkbox from '@material-ui/core/Checkbox';
+
+import { useDispatch, useSelector } from 'react-redux'
+import { getZoneList } from '../../store/actions';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -25,24 +28,38 @@ const top100Films = [
     { title: 'The Good, the Bad and the Ugly', year: 1966 },
     { title: 'Fight Club', year: 1999 }
 ]
+
 function CreateScanBig({ handleClose }) {
+
+    const dispatch = useDispatch()
+    const zoneListData = useSelector((state) => state.scanData.zonelist.data)
+
+    const getZones = (e) => {
+        if(e.target.value.length>0) getZoneList(e.target.value)(dispatch)
+    }
+
+    const [zoneList, setZoneList] = useState([])
+
+    useEffect(() => {
+        setZoneList(zoneListData)
+    }, [zoneListData])
 
     return (
         <div>
             <Box sx={{ width: '500px', margin: '20px' }}>
                 <Typography id="modal-modal-title" variant="h5" component="h2" textAlign='center' style={{ marginTop: '-15px' }}>
                     Create A Scan
-                    </Typography>
+                </Typography>
                 <Typography id="modal-modal-title" variant="h6" component="h2" style={{ marginTop: '5px' }}>
                     Filters
-                    </Typography>
+                </Typography>
                 <Grid container spacing={2}>
                     <Grid item xs={4}>
                         <Stack spacing={5} style={{ marginTop: '20px' }}>
                             <div style={{ fontWeight: '300', fontSize: '18px' }}>
                                 Sort By:
-                                </div>
-                                coming soon
+                            </div>
+                            coming soon
                             <div>
                             </div>
                         </Stack>
@@ -53,9 +70,10 @@ function CreateScanBig({ handleClose }) {
                                 <Autocomplete
                                     multiple
                                     id="selectZone"
-                                    options={top100Films}
+                                    options={zoneList}
+                                    onInputChange={getZones}
                                     disableCloseOnSelect
-                                    getOptionLabel={(option) => option.title}
+                                    getOptionLabel={(option) => option}
                                     renderOption={(props, option, { selected }) => (
                                         <li {...props}>
                                             <Checkbox
@@ -64,12 +82,12 @@ function CreateScanBig({ handleClose }) {
                                                 style={{ marginRight: 8 }}
                                                 checked={selected}
                                             />
-                                            {option.title}
+                                            {option}
                                         </li>
                                     )}
                                     style={{ width: 380 }}
                                     renderInput={(params) => (
-                                        <TextField {...params} label="Select Zone"  />
+                                        <TextField {...params} label="Select Zone" />
                                     )}
                                 />
                                 <Autocomplete
