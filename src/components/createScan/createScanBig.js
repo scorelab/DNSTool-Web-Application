@@ -10,7 +10,7 @@ import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import Checkbox from '@material-ui/core/Checkbox';
 import { useDispatch, useSelector } from 'react-redux'
-import { getZoneList, getGCPZoneList, createScan } from '../../store/actions';
+import { getZoneList, getGCPZoneList, createScan, getScans } from '../../store/actions';
 import { useFirebase } from 'react-redux-firebase'
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
@@ -93,6 +93,7 @@ function CreateScanBig({ handleClose }) {
                 msg: createScanMsg.message
             })
             setOpen(true)
+            getScans(firebase)(dispatch)
             setTimeout(() => {
                 handleClose()
             }, 3000)

@@ -56,10 +56,36 @@ export const createScan = (scanDetails, firebase) => async dispatch => {
             type: actions.CREATE_SCAN_FAIL,
             payload: err.response.data.message
         });
-    }finally{
+    } finally {
         dispatch({
             type: actions.CREATE_SCAN_CLEAR,
         });
     }
 };
+
+export const getScans = (firebase) => async dispatch => {
+    dispatch({ type: actions.GET_SCANS_START });
+
+    const token = await firebase.auth().currentUser.getIdToken();
+    const config = {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    };
+
+    try {
+        const response = await axios.get('/scans', config);
+        console.log(response)
+        dispatch({
+            type: actions.GET_SCANS_SUCCESS,
+            payload: response.data.data
+        });
+    } catch (err) {
+        dispatch({
+            type: actions.GET_SCANS_FAIL,
+            payload: err.response.data.message
+        });
+    }
+};
+
 

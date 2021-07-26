@@ -15,7 +15,12 @@ const initState = {
         isloading: false,
         message: null,
         error: null
-    }
+    },
+    scanlist: {
+        isloading: false,
+        data: [],
+        error: null
+    },
 }
 
 const scanReducer = (state = initState, action) => {
@@ -110,6 +115,33 @@ const scanReducer = (state = initState, action) => {
                     isloading: false,
                     error: null,
                     message: null
+                }
+            }
+        //Get Scans
+        case actions.GET_SCANS_START:
+            return {
+                ...state,
+                scanlist: {
+                    ...state.scanlist,
+                    isloading: true
+                }
+            }
+        case actions.GET_SCANS_SUCCESS:
+            return {
+                ...state,
+                scanlist: {
+                    ...state.scanlist,
+                    data: action.payload,
+                    isloading: false,
+                }
+            }
+        case actions.GET_SCANS_FAIL:
+            return {
+                ...state,
+                scanlist: {
+                    ...state.scanlist,
+                    isloading: false,
+                    error: action.payload
                 }
             }
         default:
