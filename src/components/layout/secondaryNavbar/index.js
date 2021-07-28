@@ -16,12 +16,20 @@ import AnnouncementIcon from '@material-ui/icons/Announcement';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 import NewsSidebar from '../newsSidebar';
+import { useDispatch, useSelector } from 'react-redux'
+import { useFirebase } from 'react-redux-firebase'
+import { deleteScan } from '../../../store/actions';
 
 function SecondaryNavbar() {
 
     const [openCreateScanModal, setOpenCreateScanModal] = useState(false)
     const handleOpen = () => setOpenCreateScanModal(true);
     const handleClose = () => setOpenCreateScanModal(false);
+
+
+    const firebase = useFirebase()
+    const dispatch = useDispatch()
+    const selectedScans = useSelector((state) => state.scanData.selectedScanList.data)
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -40,6 +48,10 @@ function SecondaryNavbar() {
         setstate({
             right: false
         })
+    }
+
+    const deleteScans = () => {
+        deleteScan(selectedScans, firebase)(dispatch)
     }
 
     return (
@@ -61,7 +73,7 @@ function SecondaryNavbar() {
                                     <Button startIcon={<PageviewIcon />} size="small">Scans</Button>
                                     <Button startIcon={<CreateIcon />} size="small" onClick={handleOpen}>Create a Scan</Button>
                                     <Button startIcon={<PlayArrowIcon />} size="small">Start</Button>
-                                    <Button startIcon={<DeleteIcon />} size="small">Delete</Button>
+                                    <Button startIcon={<DeleteIcon />} onClick={deleteScans} size="small">Delete</Button>
                                 </Stack>
                                 <Button startIcon={<AnnouncementIcon />} onClick={openDrawer} size="small" >News</Button>
                             </>

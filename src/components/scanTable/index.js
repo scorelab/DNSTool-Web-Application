@@ -6,7 +6,8 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import DownloadKey from '../dashboard/downloadKey';
 import { useDispatch, useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
-import { getScans } from '../../store/actions';
+import { getScans, deleteScan, addToSelectedScansQueue } from '../../store/actions';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles({
     root: {
@@ -23,6 +24,7 @@ function ScanTable() {
     const dispatch = useDispatch()
 
     const scansData = useSelector((state) => state.scanData.scanlist.data)
+    const isLoading = useSelector((state) => state.scanData.scanlist.isloading)
 
     const [openKeyDownloadModal, setOpenKeyDownloadModal] = useState(false)
 
@@ -55,6 +57,21 @@ function ScanTable() {
         setScans(scansData)
         processScansData()
     }, [scansData])
+
+    const [SelectedRows, setSelectedRows] = useState([])
+
+    const selectRows = async (e) => {
+        setSelectedRows(e.selectionModel)
+    }
+
+    useEffect(() => {
+        addToSelectedScansQueue(SelectedRows)(dispatch)
+    }, [SelectedRows])
+
+    /* const onDelete = () => {
+        //deleteScan(SelectedRows, firebase)(dispatch)
+        addToSelectedScansQueue(SelectedRows)(dispatch)
+    } */
 
     const columns = [
         { field: 'id', headerName: 'ID', width: 160, sortable: false, headerAlign: 'center', },
@@ -95,8 +112,16 @@ function ScanTable() {
 
     return (
         <div style={{ height: 400, width: '100%' }} className={classes.root}>
-            <DataGrid rows={scans} columns={columns} pageSize={5} checkboxSelection />
+            <DataGrid
+                rows={scans}
+                columns={columns}
+                pageSize={5}
+                checkboxSelection
+                loading={isLoading}
+                onSelectionModelChange={selectRows}
+            />
             <DownloadKey open={openKeyDownloadModal} handleClose={handleClose} />
+            {/* <Button onClick={onDelete}>Delete</Button> */}
         </div>
     )
 }

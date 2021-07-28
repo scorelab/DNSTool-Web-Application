@@ -88,4 +88,53 @@ export const getScans = (firebase) => async dispatch => {
     }
 };
 
+export const clearSelecetedScansQueue = () => async dispatch => {
+    dispatch({
+        type: actions.CLEAR_SELECTED_SCANS_QUEUE
+    })
+};
+
+export const deleteScan = (scanIds, firebase) => async dispatch => {
+    dispatch({ type: actions.DELETE_SCAN_START });
+
+    const token = await firebase.auth().currentUser.getIdToken();
+    const config = {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    };
+
+    try {
+        let responses = []
+        scanIds.map(async id => {
+            let tempResponse = await axios.delete(`/scans/${id}`, config);
+            responses.push(tempResponse)
+        })
+
+        Promise.allSettled([
+            responses
+        ]).then(values => console.log(values))
+
+        dispatch({
+            type: actions.DELETE_SCAN_SUCCESS,
+            payload: `${scanIds} scans Deleted Succesfully`
+        });
+
+        await clearSelecetedScansQueue()(dispatch);
+        await getScans(firebase)(dispatch);
+
+    } catch (err) {
+        dispatch({
+            type: actions.DELETE_SCAN_FAIL,
+            payload: "Error Something Went Wrong"
+        });
+    }
+};
+
+export const addToSelectedScansQueue = (scanIds) => async dispatch => {
+    dispatch({
+        type: actions.ADD_TO_SELECTED_SCANS_QUEUE,
+        payload: scanIds
+    })
+};
 

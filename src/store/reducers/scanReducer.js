@@ -21,6 +21,14 @@ const initState = {
         data: [],
         error: null
     },
+    selectedScanList: {
+        data: []
+    },
+    deleteScan: {
+        isloading: false,
+        error: null,
+        msg: null
+    }
 }
 
 const scanReducer = (state = initState, action) => {
@@ -142,6 +150,22 @@ const scanReducer = (state = initState, action) => {
                     ...state.scanlist,
                     isloading: false,
                     error: action.payload
+                }
+            }
+        //Delete Scan Queue
+        case actions.ADD_TO_SELECTED_SCANS_QUEUE:
+            return {
+                ...state,
+                selectedScanList: {
+                    data: action.payload,
+
+                }
+            }
+        case actions.CLEAR_SELECTED_SCANS_QUEUE:
+            return {
+                ...state,
+                selectedScanList: {
+                    data: [],
                 }
             }
         default:
