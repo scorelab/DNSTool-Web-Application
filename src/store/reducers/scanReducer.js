@@ -27,7 +27,7 @@ const initState = {
     deleteScan: {
         isloading: false,
         error: null,
-        msg: null
+        message: null
     }
 }
 
@@ -152,7 +152,60 @@ const scanReducer = (state = initState, action) => {
                     error: action.payload
                 }
             }
-        //Delete Scan Queue
+        case actions.GET_SCANS_START:
+            return {
+                ...state,
+                scanlist: {
+                    ...state.scanlist,
+                    isloading: true
+                }
+            }
+        case actions.GET_SCANS_SUCCESS:
+            return {
+                ...state,
+                scanlist: {
+                    ...state.scanlist,
+                    data: action.payload,
+                    isloading: false,
+                }
+            }
+        case actions.GET_SCANS_FAIL:
+            return {
+                ...state,
+                scanlist: {
+                    ...state.scanlist,
+                    isloading: false,
+                    error: action.payload
+                }
+            }
+        //Delete Scan
+        case actions.DELETE_SCAN_START:
+            return {
+                ...state,
+                deleteScan: {
+                    ...state.deleteScan,
+                    isloading: true
+                }
+            }
+        case actions.DELETE_SCAN_SUCCESS:
+            return {
+                ...state,
+                deleteScan: {
+                    ...state.deleteScan,
+                    message: action.payload,
+                    isloading: false,
+                }
+            }
+        case actions.DELETE_SCAN_FAIL:
+            return {
+                ...state,
+                deleteScan: {
+                    ...state.deleteScan,
+                    isloading: false,
+                    error: action.payload
+                }
+            }
+        //Select Scan Queue
         case actions.ADD_TO_SELECTED_SCANS_QUEUE:
             return {
                 ...state,

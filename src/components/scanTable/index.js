@@ -68,10 +68,6 @@ function ScanTable() {
         addToSelectedScansQueue(SelectedRows)(dispatch)
     }, [SelectedRows])
 
-    /* const onDelete = () => {
-        //deleteScan(SelectedRows, firebase)(dispatch)
-        addToSelectedScansQueue(SelectedRows)(dispatch)
-    } */
 
     const columns = [
         { field: 'id', headerName: 'ID', width: 160, sortable: false, headerAlign: 'center', },
@@ -121,7 +117,6 @@ function ScanTable() {
                 onSelectionModelChange={selectRows}
             />
             <DownloadKey open={openKeyDownloadModal} handleClose={handleClose} />
-            {/* <Button onClick={onDelete}>Delete</Button> */}
         </div>
     )
 }
