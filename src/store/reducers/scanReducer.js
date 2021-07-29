@@ -152,32 +152,6 @@ const scanReducer = (state = initState, action) => {
                     error: action.payload
                 }
             }
-        case actions.GET_SCANS_START:
-            return {
-                ...state,
-                scanlist: {
-                    ...state.scanlist,
-                    isloading: true
-                }
-            }
-        case actions.GET_SCANS_SUCCESS:
-            return {
-                ...state,
-                scanlist: {
-                    ...state.scanlist,
-                    data: action.payload,
-                    isloading: false,
-                }
-            }
-        case actions.GET_SCANS_FAIL:
-            return {
-                ...state,
-                scanlist: {
-                    ...state.scanlist,
-                    isloading: false,
-                    error: action.payload
-                }
-            }
         //Delete Scan
         case actions.DELETE_SCAN_START:
             return {
