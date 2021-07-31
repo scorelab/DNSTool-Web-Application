@@ -16,12 +16,18 @@ import AnnouncementIcon from '@material-ui/icons/Announcement';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 import NewsSidebar from '../newsSidebar';
+import { useDispatch, useSelector } from 'react-redux'
+import DeletePrompt from '../../prompts/DeletePrompt';
 
 function SecondaryNavbar() {
 
     const [openCreateScanModal, setOpenCreateScanModal] = useState(false)
     const handleOpen = () => setOpenCreateScanModal(true);
     const handleClose = () => setOpenCreateScanModal(false);
+
+    const [deletePromptIsVisible, setDeletePromptIsVisible] = useState(false)
+    const handleOpenDeletePrompt = () => setDeletePromptIsVisible(true)
+    const handleCloseDeletePrompt = () => setDeletePromptIsVisible(false)
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -61,7 +67,7 @@ function SecondaryNavbar() {
                                     <Button startIcon={<PageviewIcon />} size="small">Scans</Button>
                                     <Button startIcon={<CreateIcon />} size="small" onClick={handleOpen}>Create a Scan</Button>
                                     <Button startIcon={<PlayArrowIcon />} size="small">Start</Button>
-                                    <Button startIcon={<DeleteIcon />} size="small">Delete</Button>
+                                    <Button startIcon={<DeleteIcon />} onClick={handleOpenDeletePrompt} size="small">Delete</Button>
                                 </Stack>
                                 <Button startIcon={<AnnouncementIcon />} onClick={openDrawer} size="small" >News</Button>
                             </>
@@ -70,6 +76,7 @@ function SecondaryNavbar() {
 
                 </Toolbar>
                 <CreateScanModal open={openCreateScanModal} handleClose={handleClose} />
+                <DeletePrompt open={handleOpenDeletePrompt} isOpen={deletePromptIsVisible} close={handleCloseDeletePrompt} />
                 <NewsSidebar open={openDrawer} close={closeDrawer} isOpen={state.right} />
             </AppBar>
             <Divider style={{ marginTop: '-2px' }} />

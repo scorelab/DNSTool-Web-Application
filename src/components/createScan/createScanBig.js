@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import { Grid } from '@material-ui/core';
+import { Alert, Grid, Snackbar } from '@material-ui/core';
 import Stack from '@material-ui/core/Stack';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/core/Autocomplete'
@@ -9,40 +9,113 @@ import Button from '@material-ui/core/Button';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import Checkbox from '@material-ui/core/Checkbox';
+import { useDispatch, useSelector } from 'react-redux'
+import { getZoneList, getGCPZoneList, createScan, getScans } from '../../store/actions';
+import { useFirebase } from 'react-redux-firebase'
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
-const top100Films = [
-    { title: 'The Shawshank Redemption', year: 1994 },
-    { title: 'The Godfather', year: 1972 },
-    { title: 'The Godfather: Part II', year: 1974 },
-    { title: 'The Dark Knight', year: 2008 },
-    { title: '12 Angry Men', year: 1957 },
-    { title: "Schindler's List", year: 1993 },
-    { title: 'Pulp Fiction', year: 1994 },
-    { title: 'The Lord of the Rings: The Return of the King', year: 2003 },
-    { title: 'The Good, the Bad and the Ugly', year: 1966 },
-    { title: 'Fight Club', year: 1999 }
-]
 function CreateScanBig({ handleClose }) {
+
+    const dispatch = useDispatch()
+    const zoneListData = useSelector((state) => state.scanData.zonelist.data)
+    const gcpZoneData = useSelector((state) => state.scanData.gcpzones.data)
+    const createScanMsg = useSelector((state) => state.scanData.createScan)
+
+    const firebase = useFirebase()
+
+    const getZones = (e) => {
+        e.target.value && (e.target.value.length > 0) && getZoneList(e.target.value)(dispatch)
+    }
+
+    const getGCPZones = (e) => {
+        e.target.value && (e.target.value.length > 0) && getGCPZoneList(e.target.value)(dispatch)
+    }
+
+    const [zoneList, setZoneList] = useState([])
+    const [gcpZoneList, setGcpZoneList] = useState([])
+
+    const [selectedList, setSelecteList] = useState({
+        zones: [],
+        regions: []
+    })
+
+    const handleChangeZones = (e, values) => {
+        setSelecteList({
+            ...selectedList,
+            zones: values
+        })
+    }
+
+    const handleChangeRegions = (e, values) => {
+        setSelecteList({
+            ...selectedList,
+            regions: values
+        })
+    }
+
+    const submitForm = () => {
+        createScan(selectedList, firebase)(dispatch)
+        // handleClose()
+    }
+
+    useEffect(() => {
+        setZoneList(zoneListData)
+    }, [zoneListData])
+
+    useEffect(() => {
+        setGcpZoneList(gcpZoneData)
+    }, [gcpZoneData])
+
+    const [open, setOpen] = useState(false);
+    const [snackBarOptions, setSnackbarOptions] = useState({
+        color: 'success',
+        msg: ''
+    })
+
+
+    const handleCloseSnackBar = () => {
+        setOpen(false);
+    };
+
+    useEffect(() => {
+        console.log(createScanMsg)
+        if (createScanMsg.error) {
+            setSnackbarOptions({
+                color: 'error',
+                msg: createScanMsg.error
+            })
+            setOpen(true)
+        } else if (createScanMsg.message) {
+            setSnackbarOptions({
+                color: 'success',
+                msg: createScanMsg.message
+            })
+            setOpen(true)
+            getScans(firebase)(dispatch)
+            setTimeout(() => {
+                handleClose()
+            }, 3000)
+        }
+    }, [createScanMsg])
 
     return (
         <div>
             <Box sx={{ width: '500px', margin: '20px' }}>
                 <Typography id="modal-modal-title" variant="h5" component="h2" textAlign='center' style={{ marginTop: '-15px' }}>
                     Create A Scan
-                    </Typography>
+                </Typography>
                 <Typography id="modal-modal-title" variant="h6" component="h2" style={{ marginTop: '5px' }}>
                     Filters
-                    </Typography>
+                </Typography>
                 <Grid container spacing={2}>
                     <Grid item xs={4}>
                         <Stack spacing={5} style={{ marginTop: '20px' }}>
                             <div style={{ fontWeight: '300', fontSize: '18px' }}>
                                 Sort By:
-                                </div>
-                                coming soon
+                            </div>
+                            coming soon
                             <div>
                             </div>
                         </Stack>
@@ -53,9 +126,11 @@ function CreateScanBig({ handleClose }) {
                                 <Autocomplete
                                     multiple
                                     id="selectZone"
-                                    options={top100Films}
+                                    options={zoneList}
+                                    onChange={handleChangeZones}
+                                    onInputChange={getZones}
                                     disableCloseOnSelect
-                                    getOptionLabel={(option) => option.title}
+                                    getOptionLabel={(option) => option}
                                     renderOption={(props, option, { selected }) => (
                                         <li {...props}>
                                             <Checkbox
@@ -64,21 +139,23 @@ function CreateScanBig({ handleClose }) {
                                                 style={{ marginRight: 8 }}
                                                 checked={selected}
                                             />
-                                            {option.title}
+                                            {option}
                                         </li>
                                     )}
                                     style={{ width: 380 }}
                                     renderInput={(params) => (
-                                        <TextField {...params} label="Select Zone"  />
+                                        <TextField {...params} label="Select Zone" />
                                     )}
                                 />
                                 <Autocomplete
                                     multiple
                                     id="selectRegion"
-                                    options={top100Films}
+                                    options={gcpZoneList}
+                                    onInputChange={getGCPZones}
+                                    onChange={handleChangeRegions}
                                     disableCloseOnSelect
-                                    getOptionLabel={(option) => option.title}
-                                    renderOption={(props, option, { selected }) => (
+                                    getOptionLabel={(i) => i}
+                                    renderOption={(props, i, { selected }) => (
                                         <li {...props}>
                                             <Checkbox
                                                 icon={icon}
@@ -86,7 +163,7 @@ function CreateScanBig({ handleClose }) {
                                                 style={{ marginRight: 8 }}
                                                 checked={selected}
                                             />
-                                            {option.title}
+                                            {i}
                                         </li>
                                     )}
                                     style={{ width: 380 }}
@@ -95,8 +172,15 @@ function CreateScanBig({ handleClose }) {
                                     )}
                                 />
                             </Stack>
+
+                            <Snackbar open={open} autoHideDuration={6000} onClose={handleCloseSnackBar} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
+                                <Alert onClose={handleCloseSnackBar} severity={snackBarOptions.color} sx={{ width: '100%' }}>
+                                    {snackBarOptions.msg}
+                                </Alert>
+                            </Snackbar>
+
                             <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                <Button variant="contained" style={{ marginLeft: '-40px', width: '90px' }}>OK</Button>
+                                <Button variant="contained" onClick={submitForm} style={{ marginLeft: '-40px', width: '90px' }}>OK</Button>
                                 <Button variant="contained" onClick={handleClose} style={{ marginLeft: '40px' }}>Cancel</Button>
                             </div>
                         </Stack>
