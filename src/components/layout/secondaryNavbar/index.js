@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -9,6 +9,7 @@ import { makeStyles } from '@material-ui/styles';
 import CreateScanModal from '../../createScan';
 import { Divider, Stack } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
+import PauseIcon from '@material-ui/icons/Pause';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import CreateIcon from '@material-ui/icons/Create';
 import PageviewIcon from '@material-ui/icons/Pageview';
@@ -18,8 +19,23 @@ import { useTheme } from '@material-ui/core/styles';
 import NewsSidebar from '../newsSidebar';
 import { useDispatch, useSelector } from 'react-redux'
 import DeletePrompt from '../../prompts/DeletePrompt';
+import { useFirebase } from 'react-redux-firebase';
 
 function SecondaryNavbar() {
+
+    const dispatch = useDispatch()
+    const selectedScans = useSelector((state) => state.scanData.selectedScanList.data)
+    const scanDataList = useSelector((state) => state.scanData.scanlist.data)
+
+    const firebase = useFirebase()
+
+    const [isActive, setIsActive] = useState(false)
+
+    useEffect(() => {
+        console.log(selectedScans)
+        if (selectedScans.length > 0 && scanDataList[selectedScans[0]]['state'] == 'active') setIsActive(true)
+        else setIsActive(false)
+    }, [selectedScans])
 
     const [openCreateScanModal, setOpenCreateScanModal] = useState(false)
     const handleOpen = () => setOpenCreateScanModal(true);
@@ -66,7 +82,12 @@ function SecondaryNavbar() {
                                 <Stack direction='row'>
                                     <Button startIcon={<PageviewIcon />} size="small">Scans</Button>
                                     <Button startIcon={<CreateIcon />} size="small" onClick={handleOpen}>Create a Scan</Button>
-                                    <Button startIcon={<PlayArrowIcon />} size="small">Start</Button>
+                                    {
+                                        isActive ?
+                                            (<Button startIcon={<PauseIcon />} disabled={(selectedScans.length) > 0 ? false : true} size="small">Stop</Button>)
+                                            :
+                                            (<Button startIcon={<PlayArrowIcon />} disabled={(selectedScans.length) > 0 ? false : true} size="small">Start</Button>)
+                                    }
                                     <Button startIcon={<DeleteIcon />} onClick={handleOpenDeletePrompt} size="small">Delete</Button>
                                 </Stack>
                                 <Button startIcon={<AnnouncementIcon />} onClick={openDrawer} size="small" >News</Button>
