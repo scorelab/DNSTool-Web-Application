@@ -12,5 +12,6 @@ export {
     deleteScan,
     addToSelectedScansQueue,
     clearSelecetedScansQueue,
-    downloadKeyFile
-}from './scanActions'
+    downloadKeyFile,
+    updateScanState
+} from './scanActions'

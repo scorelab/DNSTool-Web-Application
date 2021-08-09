@@ -148,7 +148,7 @@ export const downloadKeyFile = (scanId, firebase) => async dispatch => {
             "Accept": "text/json",
             "Authorization": `Bearer ${token}`,
         },
-        responseType: 'blob' 
+        responseType: 'blob'
     };
 
     try {
@@ -157,7 +157,7 @@ export const downloadKeyFile = (scanId, firebase) => async dispatch => {
         dispatch({
             type: actions.DOWNLOAD_FILE_SUCCESS,
         });
-        
+
         console.log(response)
         const header = response.headers['content-disposition'];
         console.log(header)
@@ -184,5 +184,39 @@ export const downloadKeyFile = (scanId, firebase) => async dispatch => {
                 type: actions.DOWNLOAD_FILE_STATE_CLEAR,
             });
         }, 1000);
+    }
+};
+
+export const updateScanState = (scanId, stateName, firebase) => async dispatch => {
+    dispatch({ type: actions.UPDATE_SCAN_START });
+
+    const token = await firebase.auth().currentUser.getIdToken();
+    const config = {
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        }
+    };
+    let data;
+
+    if (stateName == 'active') {
+        data = { "state": 'suspend' }
+    } else if (stateName == 'suspend') {
+        data = { "state": 'active' }
+    }
+
+    try {
+        const response = await axios.patch(`/scans/${scanId}`, data, config);
+        console.log(response)
+        dispatch({
+            type: actions.UPDATE_SCAN_SUCCESS,
+            payload: "Successfully Updated"
+        });
+        await getScans(firebase)(dispatch);
+    } catch (err) {
+        dispatch({
+            type: actions.UPDATE_SCAN_FAIL,
+            payload: "State Update Failed"
+        });
     }
 };
