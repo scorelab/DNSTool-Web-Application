@@ -61,3 +61,14 @@ export const signup = (details) => async dispatch => {
         });
     }
 };
+
+export const signOut = (firebase) => async dispatch => {
+    firebase.auth().signOut().then(() => {
+        dispatch({ type: actions.SIGN_OUT_SUCCESS })
+    }).catch((error) => {
+        dispatch({
+            type: actions.SIGN_OUT_FAIL,
+            payload: error
+        })
+    });
+}

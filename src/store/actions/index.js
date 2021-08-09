@@ -1,7 +1,8 @@
 export {
     signin,
     checkemail,
-    signup
+    signup,
+    signOut
 } from './authActions'
 
 export {
