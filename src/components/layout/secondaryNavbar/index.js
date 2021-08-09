@@ -131,7 +131,7 @@ function SecondaryNavbar() {
                                             :
                                             (<Button startIcon={<PlayArrowIcon />} onClick={changeActiveState} disabled={(selectedScans.length) > 0 ? false : true} size="small">Start</Button>)
                                     }
-                                    <Button startIcon={<DeleteIcon />} onClick={handleOpenDeletePrompt} size="small">Delete</Button>
+                                    <Button startIcon={<DeleteIcon />} disabled={(selectedScans.length) > 0 ? false : true} onClick={handleOpenDeletePrompt} size="small">Delete</Button>
                                 </Stack>
                                 <Button startIcon={<AnnouncementIcon />} onClick={openDrawer} size="small" >News</Button>
                             </>
