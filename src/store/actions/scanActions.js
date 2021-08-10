@@ -206,8 +206,7 @@ export const updateScanState = (scanId, stateName, firebase) => async dispatch =
     }
 
     try {
-        const response = await axios.patch(`/scans/${scanId}`, data, config);
-        console.log(response)
+        await axios.patch(`/scans/${scanId}`, data, config);
         dispatch({
             type: actions.UPDATE_SCAN_SUCCESS,
             payload: "Successfully Updated"
@@ -218,5 +217,10 @@ export const updateScanState = (scanId, stateName, firebase) => async dispatch =
             type: actions.UPDATE_SCAN_FAIL,
             payload: "State Update Failed"
         });
+    } finally {
+        dispatch({
+            type: actions.CLEAR_SELECTED_SCANS_QUEUE
+        })
+        addToSelectedScansQueue([scanId])(dispatch);
     }
 };
