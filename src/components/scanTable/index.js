@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { DataGrid } from '@material-ui/data-grid';
 import { makeStyles } from '@material-ui/styles';
-import { Chip } from '@material-ui/core';
+import { Chip, IconButton } from '@material-ui/core';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import DownloadKey from '../dashboard/downloadKey';
 import { useDispatch, useSelector } from 'react-redux'
@@ -110,7 +110,11 @@ function ScanTable() {
             headerAlign: 'center',
             renderCell: (params) => {
                 return (
-                    <GetAppIcon onClick={() => handleOpen(params.row.key)} />
+                    <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+                        <IconButton aria-label="Download Key" disabled={params.row.state === 'active' ? false : true} onClick={() => handleOpen(params.row.key)}>
+                            <GetAppIcon />
+                        </IconButton>
+                    </div>
                 )
             }
         },
