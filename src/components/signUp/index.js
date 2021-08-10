@@ -7,6 +7,10 @@ import { signup } from '../../store/actions';
 import { useDispatch, useSelector } from 'react-redux'
 import PasswordChecker from '../../utils/passwordChecker';
 import { checkemail } from '../../store/actions';
+import {
+    GoogleReCaptchaProvider,
+} from 'react-google-recaptcha-v3';
+import CaptchaComponent from './CaptchaComponent';
 
 function SignUp() {
 
@@ -32,7 +36,8 @@ function SignUp() {
         profession: '',
         reason: '',
         password: '',
-        accept: false
+        accept: false,
+        g_recaptcha_response: ''
     })
 
     const [errorState, setErrorState] = useState({
@@ -43,7 +48,7 @@ function SignUp() {
         reason: '',
         password: '',
         correctEmailFormat: false,
-        reEnteredPassword: ''
+        reEnteredPassword: '',
     })
 
     useEffect(() => {
@@ -186,6 +191,7 @@ function SignUp() {
         setShowSnackbar(false)
     }
 
+
     return (
         <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 
@@ -204,7 +210,7 @@ function SignUp() {
                 <Paper elevation={2} >
                     <Stack spacing={1} alignItems='center'>
                         {/*  <div style={{ width: '100%', backgroundColor: 'rgba(9, 109, 217, 0.33)', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}> */}
-                        <Typography variant="h5" style={{marginTop:'20px'}}>Sign Up</Typography>
+                        <Typography variant="h5" style={{ marginTop: '20px' }}>Sign Up</Typography>
                         {/* </div> */}
                         <Box sx={{ padding: '15px', width: '90%' }} alignItems='center'>
                             <Stack spacing={1}>
@@ -231,7 +237,7 @@ function SignUp() {
                                     onChange={handleChange}
                                     onBlur={checkEmail}
                                     fullWidth
-                                    /* style={{ maxWidth: '420px' }} */
+                                /* style={{ maxWidth: '420px' }} */
                                 />
                                 <Stack direction={{ xs: 'column', sm: 'row' }} columnGap={1} rowGap={1}>
                                     <TextField
@@ -325,6 +331,15 @@ function SignUp() {
                             )
                         }
                     </Stack>
+                    <GoogleReCaptchaProvider reCaptchaKey={process.env.REACT_APP_GOOGLE_RECAPTCHA_SITE_KEY}>
+                        <CaptchaComponent
+                            getToken={Token => {
+                                setstate({
+                                    ...state,
+                                    g_recaptcha_response: Token
+                                })
+                            }} />
+                    </GoogleReCaptchaProvider>
                 </Paper>
             </Box>
         </div>
