@@ -1,4 +1,4 @@
-import { Box, Paper, Stack, Typography, Button, Divider, FormControlLabel, Checkbox, Snackbar, Alert } from '@material-ui/core'
+import { Box, Paper, Stack, Typography, Button, Divider, CircularProgress, FormControlLabel, Checkbox, Snackbar, Alert } from '@material-ui/core'
 import React, { useState, useEffect } from 'react'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
@@ -191,6 +191,21 @@ function SignUp() {
         setShowSnackbar(false)
     }
 
+    const loading = useSelector(state => state.authstatus.signUp.isloading)
+
+    function ButtonComponent() {
+        return (
+            <Button variant="contained" onClick={handleSubmit} disabled={loading}>
+                {loading && (<>
+                    <CircularProgress size={14} sx={{ marginRight: '5px' }} />
+                    Signing Up...
+                </>
+                )}
+                {!loading && 'Sign Up'}
+            </Button>
+        );
+    }
+
 
     return (
         <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -312,7 +327,8 @@ function SignUp() {
                                     <FormControlLabel control={<Checkbox onChange={handleChange} name="accept" value={state.accept} />} label="I agree with Terms and Services" />
                                 </div>
                             </Stack>
-                            <Button variant="contained" style={{ margin: '15px 0px 10px 0px' }} onClick={handleSubmit}>Sign Up</Button>
+                            {/*  <Button variant="contained" style={{ margin: '15px 0px 10px 0px' }} onClick={handleSubmit}>Sign Up</Button> */}
+                            <ButtonComponent style={{ margin: '15px 0px 10px 0px' }} />
                             <div style={{ width: '95%', padding: '10px 10px 10px 10px' }}>
                                 <Divider>OR</Divider>
                             </div>

@@ -1,4 +1,4 @@
-import {  Box, Paper, Stack, Typography, Button, Divider, Snackbar, Alert } from '@material-ui/core'
+import { Box, Paper, Stack, Typography, Button, Divider, CircularProgress, Snackbar, Alert } from '@material-ui/core'
 import React, { useState, useEffect } from 'react'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
@@ -62,12 +62,27 @@ function Login() {
         }
     }
 
+    const loading = useSelector(state => state.authstatus.signIn.isloading)
+
+    function ButtonComponent() {
+        return (
+            <Button variant="contained" onClick={handleSubmit} disabled={loading}>
+                {loading && (<>
+                    <CircularProgress size={14} sx={{ marginRight: '5px' }} />
+                    Signing In...
+                </>
+                )}
+                {!loading && 'Sign In'}
+            </Button>
+        );
+    }
+
     const theme = useTheme();
     const IsMobile = useMediaQuery(theme.breakpoints.down('md'));
 
     return (
-        <div style={{  minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-           
+        <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+
             <Box
                 sx={{
                     display: 'flex',
@@ -81,11 +96,11 @@ function Login() {
             >
                 <Paper elevation={2} >
                     <Stack spacing={1} alignItems='center'>
-                       {/*  <div style={{ width: '100%', backgroundColor: 'rgba(9, 109, 217, 0.33)', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}> */}
-                            <Typography variant="h5" style={{marginTop:'10px'}} >Login</Typography>
-                      {/*   </div> */}
+                        {/*  <div style={{ width: '100%', backgroundColor: 'rgba(9, 109, 217, 0.33)', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}> */}
+                        <Typography variant="h5" style={{ marginTop: '10px' }} >Login</Typography>
+                        {/*   </div> */}
 
-                        <Stack alignItems='center' spacing={2} style={{marginTop:'20px'}}>
+                        <Stack alignItems='center' spacing={2} style={{ marginTop: '20px' }}>
                             <TextField
                                 id="Email"
                                 label="Email"
@@ -112,15 +127,7 @@ function Login() {
                                 onBlur={checkFieldIsEmpty}
                             />
                         </Stack>
-                        <div>
-
-                        </div>
-
-                        <Button
-                            variant="contained"
-                            style={{ margin: '30px 0px 10px 0px' }}
-                            onClick={handleSubmit}
-                        >Login</Button>
+                        <ButtonComponent style={{ margin: '30px 0px 10px 0px' }} onClick={handleSubmit} />
                         <div style={{ width: '90%' }}>
                             <Divider>OR</Divider>
                         </div>
