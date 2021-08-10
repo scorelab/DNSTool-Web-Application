@@ -89,14 +89,13 @@ function ScanTable() {
             headerAlign: 'center',
             renderCell: (params) => {
                 return (
-                    <>
+                    <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
                         {
                             params && params.row.state === 'active' ?
                                 (<Chip label={params.row.state} style={{ backgroundColor: '#dbf3e5', textTransform: 'capitalize' }} />) :
                                 (<Chip label={params.row.state} style={{ textTransform: 'capitalize' }} />)
                         }
-                    </>
-
+                    </div>
                 )
             }
         },
