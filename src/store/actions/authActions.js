@@ -65,6 +65,10 @@ export const signup = (details) => async dispatch => {
 export const signOut = (firebase) => async dispatch => {
     firebase.auth().signOut().then(() => {
         dispatch({ type: actions.SIGN_OUT_SUCCESS })
+        dispatch({ type: actions.GET_SCANS_CLEAR })
+        dispatch({ type: actions.GET_GCP_ZONES_CLEAR })
+        dispatch({ type: actions.GET_ZONE_LIST_CLEAR })
+        dispatch({ type: actions.CLEAR_SELECTED_SCANS_QUEUE })
     }).catch((error) => {
         dispatch({
             type: actions.SIGN_OUT_FAIL,

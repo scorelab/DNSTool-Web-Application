@@ -219,6 +219,9 @@ export const updateScanState = (scanId, stateName, firebase) => async dispatch =
         });
     } finally {
         dispatch({
+            type: actions.UPDATE_SCAN_STATE_CLEAR
+        })
+        dispatch({
             type: actions.CLEAR_SELECTED_SCANS_QUEUE
         })
         addToSelectedScansQueue([scanId])(dispatch);
