@@ -116,8 +116,13 @@ function SecondaryNavbar() {
                             <>
                                 <Button size="small">Scans</Button>
                                 <Button size="small" onClick={handleOpen}>Create</Button>
-                                <Button size="small">Start</Button>
-                                <Button size="small">Delete</Button>
+                                {
+                                    isActive ?
+                                        (<Button onClick={changeActiveState} disabled={(selectedScans.length) > 0 ? false : true} size="small">Stop</Button>)
+                                        :
+                                        (<Button onClick={changeActiveState} disabled={(selectedScans.length) > 0 ? false : true} size="small">Start</Button>)
+                                }
+                                <Button disabled={(selectedScans.length) > 0 ? false : true} onClick={handleOpenDeletePrompt} size="small">Delete</Button>
                                 <Button size="small" onClick={openDrawer}>News</Button>
                             </>
                         ) : (
