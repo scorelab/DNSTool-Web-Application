@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import MenuIcon from '@material-ui/icons/Menu';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import { makeStyles } from '@material-ui/styles';
 import CreateScanModal from '../../createScan';
 import { Divider, Snackbar, Stack, Alert } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -35,7 +31,7 @@ function SecondaryNavbar() {
 
     useEffect(() => {
         console.log(selectedScans)
-        if (selectedScans.length > 0 && scanDataList[selectedScans[0]]['state'] == 'active') setIsActive(true)
+        if (selectedScans.length > 0 && scanDataList[selectedScans[0]]['state'] === 'active') setIsActive(true)
         else setIsActive(false)
     }, [selectedScans])
 

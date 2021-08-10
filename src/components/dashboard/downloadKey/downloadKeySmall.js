@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import { Button, Stack, Typography, CircularProgress } from '@material-ui/core'
 import Box from '@material-ui/core/Box';
 import Alert from '@material-ui/core/Alert';
-import GetAppIcon from '@material-ui/icons/GetApp';
 import { useDispatch, useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
 import { downloadKeyFile } from '../../../store/actions';

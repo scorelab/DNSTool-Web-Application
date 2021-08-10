@@ -6,8 +6,7 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import DownloadKey from '../dashboard/downloadKey';
 import { useDispatch, useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
-import { getScans, deleteScan, addToSelectedScansQueue } from '../../store/actions';
-import Button from '@material-ui/core/Button';
+import { getScans, addToSelectedScansQueue } from '../../store/actions';
 
 const useStyles = makeStyles({
     root: {

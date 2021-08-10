@@ -199,9 +199,9 @@ export const updateScanState = (scanId, stateName, firebase) => async dispatch =
     };
     let data;
 
-    if (stateName == 'active') {
+    if (stateName === 'active') {
         data = { "state": 'suspend' }
-    } else if (stateName == 'suspend') {
+    } else if (stateName === 'suspend') {
         data = { "state": 'active' }
     }
 
