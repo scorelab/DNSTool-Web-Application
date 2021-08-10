@@ -138,3 +138,85 @@ export const addToSelectedScansQueue = (scanIds) => async dispatch => {
     })
 };
 
+export const downloadKeyFile = (scanId, firebase) => async dispatch => {
+    dispatch({ type: actions.DOWNLOAD_FILE_START });
+
+    const token = await firebase.auth().currentUser.getIdToken();
+    const config = {
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "text/json",
+            "Authorization": `Bearer ${token}`,
+        },
+        responseType: 'blob'
+    };
+
+    try {
+        const response = await axios.get(`/service-account/${scanId}`, config);
+        console.log(response)
+        dispatch({
+            type: actions.DOWNLOAD_FILE_SUCCESS,
+        });
+
+        console.log(response)
+        const header = response.headers['content-disposition'];
+        console.log(header)
+        const fileNameSplit = header.split(/attachment;\sfilename=/).filter(Boolean)
+        const fileName = fileNameSplit.length === 1 ? fileNameSplit[0] : "service_account.json"
+        const blob = await response.data
+        const url = URL.createObjectURL(blob)
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', fileName);
+        document.body.appendChild(link);
+        link.click();
+        document.querySelector('#download').innerText = 'Download Service Account';
+
+    } catch (err) {
+        console.log(err)
+        dispatch({
+            type: actions.DOWNLOAD_FILE_FAIL,
+            //payload: err.response.data.message
+        });
+    } finally {
+        setTimeout(() => {
+            dispatch({
+                type: actions.DOWNLOAD_FILE_STATE_CLEAR,
+            });
+        }, 1000);
+    }
+};
+
+export const updateScanState = (scanId, stateName, firebase) => async dispatch => {
+    dispatch({ type: actions.UPDATE_SCAN_START });
+
+    const token = await firebase.auth().currentUser.getIdToken();
+    const config = {
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        }
+    };
+    let data;
+
+    if (stateName == 'active') {
+        data = { "state": 'suspend' }
+    } else if (stateName == 'suspend') {
+        data = { "state": 'active' }
+    }
+
+    try {
+        const response = await axios.patch(`/scans/${scanId}`, data, config);
+        console.log(response)
+        dispatch({
+            type: actions.UPDATE_SCAN_SUCCESS,
+            payload: "Successfully Updated"
+        });
+        await getScans(firebase)(dispatch);
+    } catch (err) {
+        dispatch({
+            type: actions.UPDATE_SCAN_FAIL,
+            payload: "State Update Failed"
+        });
+    }
+};

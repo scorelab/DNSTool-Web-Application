@@ -6,10 +6,10 @@ import { useTheme } from '@material-ui/core/styles';
 import DownloadKeyBig from './downloadKeyBig';
 import DownloadKeySmall from './downloadKeySmall';
 
-function DownloadKey({ open, handleClose }) {
+function DownloadKey({ open, handleClose, scanId }) {
 
     const theme = useTheme();
-    const IsMobileOrTable = useMediaQuery(theme.breakpoints.down('md'));
+    const IsMobileOrTable = useMediaQuery(theme.breakpoints.down('sm'));
 
     const dialogStyle = {
         //maxWidth: IsMobileOrTable ? '90%' : '540px',
@@ -29,7 +29,7 @@ function DownloadKey({ open, handleClose }) {
                 <DialogContent sx={dialogStyle}>
 
                     {
-                        IsMobileOrTable ? <DownloadKeySmall handleClose={handleClose} /> : <DownloadKeyBig handleClose={handleClose} />
+                        IsMobileOrTable ? <DownloadKeySmall handleClose={handleClose} scanId={scanId} /> : <DownloadKeyBig handleClose={handleClose} scanId={scanId} />
                     }
                 </DialogContent>
             </Dialog>

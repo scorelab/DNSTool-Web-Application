@@ -28,10 +28,7 @@ function ScanTable() {
 
     const [openKeyDownloadModal, setOpenKeyDownloadModal] = useState(false)
 
-    const handleOpen = () => {
-        setOpenKeyDownloadModal(true)
-    }
-    const handleClose = () => setOpenKeyDownloadModal(false);
+
 
     const [scans, setScans] = useState([])
 
@@ -68,6 +65,20 @@ function ScanTable() {
         addToSelectedScansQueue(SelectedRows)(dispatch)
     }, [SelectedRows])
 
+    const [scanIdForDownloadKey, setScanIdForDownloadKey] = useState('')
+
+    const handleOpen = (id) => {
+        setScanIdForDownloadKey(id)
+    }
+
+    useEffect(() => {
+        if (scanIdForDownloadKey !== '') {
+            setOpenKeyDownloadModal(true)
+        }
+    }, [scanIdForDownloadKey])
+
+    const handleClose = () => setOpenKeyDownloadModal(false);
+
 
     const columns = [
         { field: 'id', headerName: 'ID', width: 160, sortable: false, headerAlign: 'center', },
@@ -83,7 +94,7 @@ function ScanTable() {
                         {
                             params && params.row.state === 'active' ?
                                 (<Chip label={params.row.state} style={{ backgroundColor: '#dbf3e5', textTransform: 'capitalize' }} />) :
-                                (<Chip label={params.row.state} />)
+                                (<Chip label={params.row.state} style={{ textTransform: 'capitalize' }} />)
                         }
                     </>
 
@@ -116,7 +127,7 @@ function ScanTable() {
                 loading={isLoading}
                 onSelectionModelChange={selectRows}
             />
-            <DownloadKey open={openKeyDownloadModal} handleClose={handleClose} />
+            <DownloadKey open={openKeyDownloadModal} handleClose={handleClose} scanId={scanIdForDownloadKey} />
         </div>
     )
 }

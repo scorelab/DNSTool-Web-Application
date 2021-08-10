@@ -28,6 +28,15 @@ const initState = {
         isloading: false,
         error: null,
         message: null
+    },
+    downloadKeyFile: {
+        isloading: false,
+        error: null,
+    },
+    updateScanState: {
+        isloading: false,
+        error: null,
+        message: null
     }
 }
 
@@ -193,6 +202,75 @@ const scanReducer = (state = initState, action) => {
                 ...state,
                 selectedScanList: {
                     data: [],
+                }
+            }
+        //Download File
+        case actions.DOWNLOAD_FILE_START:
+            return {
+                ...state,
+                downloadKeyFile: {
+                    ...state.downloadKeyFile,
+                    isloading: true
+                }
+            }
+        case actions.DOWNLOAD_FILE_SUCCESS:
+            return {
+                ...state,
+                downloadKeyFile: {
+                    error: false,
+                    isloading: false,
+                }
+            }
+        case actions.DOWNLOAD_FILE_FAIL:
+            return {
+                ...state,
+                downloadKeyFile: {
+                    isloading: false,
+                    error: action.payload
+                }
+            }
+        case actions.DOWNLOAD_FILE_STATE_CLEAR:
+            return {
+                ...state,
+                downloadKeyFile: {
+                    isloading: false,
+                    error: null
+                }
+            }
+        //UpdateScanState
+        case actions.UPDATE_SCAN_START:
+            return {
+                ...state,
+                updateScanState: {
+                    ...state.updateScanState,
+                    isloading: true
+                }
+            }
+        case actions.UPDATE_SCAN_SUCCESS:
+            return {
+                ...state,
+                updateScanState: {
+                    error: false,
+                    message: action.payload,
+                    isloading: false,
+                }
+            }
+        case actions.UPDATE_SCAN_FAIL:
+            return {
+                ...state,
+                updateScanState: {
+                    ...state.updateScanState,
+                    isloading: false,
+                    error: action.payload
+                }
+            }
+        case actions.UPDATE_SCAN_STATE_CLEAR:
+            return {
+                ...state,
+                updateScanState: {
+                    isloading: false,
+                    error: null,
+                    message: null
                 }
             }
         default:
