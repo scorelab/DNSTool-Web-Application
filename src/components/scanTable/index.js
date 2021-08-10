@@ -36,7 +36,7 @@ function ScanTable() {
     }, [])
 
     const processScansData = () => {
-        let tempKeys = Object.keys(scansData)
+        let tempKeys = scansData && Object.keys(scansData)
         let tempArray = []
 
         scansData && Object.values(scansData).map((item, i) => {
