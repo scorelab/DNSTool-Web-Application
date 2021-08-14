@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { DataGrid } from '@material-ui/data-grid';
 import { makeStyles } from '@material-ui/styles';
-import { Chip } from '@material-ui/core';
+import { Chip, IconButton } from '@material-ui/core';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import DownloadKey from '../dashboard/downloadKey';
 import { useDispatch, useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
-import { getScans, deleteScan, addToSelectedScansQueue } from '../../store/actions';
-import Button from '@material-ui/core/Button';
+import { getScans, addToSelectedScansQueue } from '../../store/actions';
 
 const useStyles = makeStyles({
     root: {
@@ -37,7 +36,7 @@ function ScanTable() {
     }, [])
 
     const processScansData = () => {
-        let tempKeys = Object.keys(scansData)
+        let tempKeys = scansData && Object.keys(scansData)
         let tempArray = []
 
         scansData && Object.values(scansData).map((item, i) => {
@@ -90,14 +89,13 @@ function ScanTable() {
             headerAlign: 'center',
             renderCell: (params) => {
                 return (
-                    <>
+                    <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
                         {
                             params && params.row.state === 'active' ?
                                 (<Chip label={params.row.state} style={{ backgroundColor: '#dbf3e5', textTransform: 'capitalize' }} />) :
                                 (<Chip label={params.row.state} style={{ textTransform: 'capitalize' }} />)
                         }
-                    </>
-
+                    </div>
                 )
             }
         },
@@ -111,7 +109,11 @@ function ScanTable() {
             headerAlign: 'center',
             renderCell: (params) => {
                 return (
-                    <GetAppIcon onClick={() => handleOpen(params.row.key)} />
+                    <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+                        <IconButton aria-label="Download Key" disabled={params.row.state === 'active' ? false : true} onClick={() => handleOpen(params.row.key)}>
+                            <GetAppIcon />
+                        </IconButton>
+                    </div>
                 )
             }
         },

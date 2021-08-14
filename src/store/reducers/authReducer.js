@@ -13,6 +13,10 @@ const initState = {
         isloading: false,
         error: null,
         isSuccess: false
+    },
+    verificationEmail: {
+        error: null,
+        msg: null
     }
 }
 
@@ -86,6 +90,23 @@ const authReducer = (state = initState, action) => {
                     ...state.signUp,
                     isloading: false,
                     isSuccess: true
+                }
+            }
+        //Send Verification Email
+        case actions.SEND_EMAIL_VERIFICATION:
+            return {
+                ...state,
+                verificationEmail: {
+                    error: false,
+                    msg: action.payload
+                }
+            }
+        case actions.SEND_EMAIL_VERIFICATION_FAIL:
+            return {
+                ...state,
+                verificationEmail: {
+                    error: true,
+                    msg: action.payload
                 }
             }
         default:

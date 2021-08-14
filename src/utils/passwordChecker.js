@@ -21,18 +21,21 @@ function PasswordChecker({ password, checkPasswordStrength }) {
 
         switch (score) {
             case 25:
-                setMsg('Password is short')
-                setFontColor('darkred')
+                setMsg('Password is weak')
+                checkPasswordStrength(false)
+                setFontColor('red')
                 setColor('error')
                 break;
             case 50:
-                setMsg('Password is weak')
-                setFontColor('red')
+                setMsg('Password is Sufficient')
+                setFontColor('orange')
+                checkPasswordStrength(true)
                 setColor('warning')
                 break;
             case 75:
-                setMsg('Password is weak')
-                setFontColor('orange')
+                setMsg('Password is Good')
+                setFontColor('lightgreen')
+                checkPasswordStrength(true)
                 setColor('warning')
                 break;
             case 100:
@@ -47,21 +50,21 @@ function PasswordChecker({ password, checkPasswordStrength }) {
     }, [password])
 
     return (
-        <>
+        <div style={{width:'100%',marginBottom:'10px',display:'flex',justifyContent:'center'}}>
             {
                 password && password.length > 0 && (
-                    <Stack style={{ marginTop: '10px' }} sx={{ maxWidth: '400px' }}>
+                    <Stack style={{ marginTop: '10px' }} sx={{ maxWidth: '500px' }}>
                         <Typography color={fontColor} fontSize="16px" fontWeight='bold' textAlign="right">
                             {msg}
                         </Typography>
                         <Typography color="#5f5f5f" fontSize="12px" textAlign="left">
                             To conform with our Strong Password policy, you are required to use a sufficiently strong password. Password must be more than 7 characters.
                         </Typography>
-                        <LinearProgress variant="determinate" value={score} style={{ marginTop: '20px', maxWidth: '400px' }} color={color} />
+                        <LinearProgress variant="determinate" value={score} style={{ marginTop: '20px', maxWidth: '500px' }} color={color} />
                     </Stack>
                 )
             }
-        </>
+        </div>
     )
 }
 

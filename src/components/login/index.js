@@ -1,6 +1,5 @@
-import {  Box, Paper, Stack, Typography, Button, Divider, Snackbar, Alert } from '@material-ui/core'
+import { Box, Paper, Stack, Typography, Button, Divider, CircularProgress, Snackbar, Alert } from '@material-ui/core'
 import React, { useState, useEffect } from 'react'
-import Navbar from '../layout/navbar'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -8,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
 import { useHistory } from "react-router-dom";
 import { signin } from '../../store/actions';
+import { Link } from "react-router-dom";
 
 function Login() {
 
@@ -63,12 +63,27 @@ function Login() {
         }
     }
 
+    const loading = useSelector(state => state.authstatus.signIn.isloading)
+
+    function ButtonComponent() {
+        return (
+            <Button variant="contained" onClick={handleSubmit} disabled={loading}>
+                {loading && (<>
+                    <CircularProgress size={14} sx={{ marginRight: '5px' }} />
+                    Signing In...
+                </>
+                )}
+                {!loading && 'Sign In'}
+            </Button>
+        );
+    }
+
     const theme = useTheme();
     const IsMobile = useMediaQuery(theme.breakpoints.down('md'));
 
     return (
-        <div style={{  minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-           
+        <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+
             <Box
                 sx={{
                     display: 'flex',
@@ -82,52 +97,48 @@ function Login() {
             >
                 <Paper elevation={2} >
                     <Stack spacing={1} alignItems='center'>
-                       {/*  <div style={{ width: '100%', backgroundColor: 'rgba(9, 109, 217, 0.33)', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}> */}
-                            <Typography variant="h5" style={{marginTop:'10px'}} >Login</Typography>
-                      {/*   </div> */}
-
-                        <Stack alignItems='center' spacing={2} style={{marginTop:'20px'}}>
-                            <TextField
-                                id="Email"
-                                label="Email"
-                                variant="outlined"
-                                name="email"
-                                error={errorstate.email.length > 0 ? true : false}
-                                helperText={errorstate.email}
-                                size="small"
-                                sx={{ width: '260px' }}
-                                onChange={handleChange}
-                                onBlur={checkFieldIsEmpty}
-                            />
-                            <TextField
-                                id="Password"
-                                label="Password"
-                                variant="outlined"
-                                name="password"
-                                type="password"
-                                sx={{ width: '260px' }}
-                                size="small"
-                                error={errorstate.password.length > 0 ? true : false}
-                                helperText={errorstate.password}
-                                onChange={handleChange}
-                                onBlur={checkFieldIsEmpty}
-                            />
-                        </Stack>
-                        <div>
-
-                        </div>
-
-                        <Button
-                            variant="contained"
-                            style={{ margin: '30px 0px 10px 0px' }}
-                            onClick={handleSubmit}
-                        >Login</Button>
+                        {/*  <div style={{ width: '100%', backgroundColor: 'rgba(9, 109, 217, 0.33)', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}> */}
+                        <Typography variant="h5" style={{ marginTop: '10px' }} >Login</Typography>
+                        {/*   </div> */}
+                        <form>
+                            <Stack alignItems='center' spacing={2} style={{ marginTop: '20px' }}>
+                                <TextField
+                                    id="Email"
+                                    label="Email"
+                                    variant="outlined"
+                                    name="email"
+                                    error={errorstate.email.length > 0 ? true : false}
+                                    helperText={errorstate.email}
+                                    size="small"
+                                    sx={{ width: '260px' }}
+                                    onChange={handleChange}
+                                    onBlur={checkFieldIsEmpty}
+                                />
+                                <TextField
+                                    id="Password"
+                                    label="Password"
+                                    variant="outlined"
+                                    name="password"
+                                    type="password"
+                                    sx={{ width: '260px' }}
+                                    size="small"
+                                    error={errorstate.password.length > 0 ? true : false}
+                                    helperText={errorstate.password}
+                                    onChange={handleChange}
+                                    onBlur={checkFieldIsEmpty}
+                                />
+                            </Stack>
+                        </form>
+                        <ButtonComponent style={{ margin: '30px 0px 10px 0px' }} onClick={handleSubmit} />
                         <div style={{ width: '90%' }}>
                             <Divider>OR</Divider>
                         </div>
                         <Stack direction="row" spacing={1} style={{ marginBottom: '6px' }}>
                             <Typography color="#5f5f5f" fontSize="12px">Don't have an account?</Typography>
-                            <Typography color="#0b71df" fontSize="12px">Sign Up</Typography>
+                            <Link to='/signup'>
+                                <Typography color="#0b71df" fontSize="12px">Sign Up</Typography>
+                            </Link>
+
                         </Stack>
 
                     </Stack>

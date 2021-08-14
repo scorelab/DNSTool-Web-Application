@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Box from '@material-ui/core/Box';
 import Divider from '@material-ui/core/Divider';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
@@ -8,8 +8,6 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import MailIcon from '@material-ui/icons/Mail';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-
-const drawerWidth = 240;
 
 
 function NewsSidebar({ isOpen, open, close }) {

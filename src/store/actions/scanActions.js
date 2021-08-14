@@ -46,7 +46,6 @@ export const createScan = (scanDetails, firebase) => async dispatch => {
 
     try {
         const response = await axios.post('/scans', scanDetails, config);
-        console.log(response)
         dispatch({
             type: actions.CREATE_SCAN_SUCCESS,
             payload: response.data.message
@@ -75,7 +74,6 @@ export const getScans = (firebase) => async dispatch => {
 
     try {
         const response = await axios.get('/scans', config);
-        console.log(response)
         dispatch({
             type: actions.GET_SCANS_SUCCESS,
             payload: response.data.data
@@ -153,14 +151,10 @@ export const downloadKeyFile = (scanId, firebase) => async dispatch => {
 
     try {
         const response = await axios.get(`/service-account/${scanId}`, config);
-        console.log(response)
         dispatch({
             type: actions.DOWNLOAD_FILE_SUCCESS,
         });
-
-        console.log(response)
         const header = response.headers['content-disposition'];
-        console.log(header)
         const fileNameSplit = header.split(/attachment;\sfilename=/).filter(Boolean)
         const fileName = fileNameSplit.length === 1 ? fileNameSplit[0] : "service_account.json"
         const blob = await response.data
@@ -173,7 +167,6 @@ export const downloadKeyFile = (scanId, firebase) => async dispatch => {
         document.querySelector('#download').innerText = 'Download Service Account';
 
     } catch (err) {
-        console.log(err)
         dispatch({
             type: actions.DOWNLOAD_FILE_FAIL,
             //payload: err.response.data.message
@@ -199,15 +192,14 @@ export const updateScanState = (scanId, stateName, firebase) => async dispatch =
     };
     let data;
 
-    if (stateName == 'active') {
+    if (stateName === 'active') {
         data = { "state": 'suspend' }
-    } else if (stateName == 'suspend') {
+    } else if (stateName === 'suspend') {
         data = { "state": 'active' }
     }
 
     try {
-        const response = await axios.patch(`/scans/${scanId}`, data, config);
-        console.log(response)
+        await axios.patch(`/scans/${scanId}`, data, config);
         dispatch({
             type: actions.UPDATE_SCAN_SUCCESS,
             payload: "Successfully Updated"
@@ -218,5 +210,13 @@ export const updateScanState = (scanId, stateName, firebase) => async dispatch =
             type: actions.UPDATE_SCAN_FAIL,
             payload: "State Update Failed"
         });
+    } finally {
+        dispatch({
+            type: actions.UPDATE_SCAN_STATE_CLEAR
+        })
+        dispatch({
+            type: actions.CLEAR_SELECTED_SCANS_QUEUE
+        })
+        addToSelectedScansQueue([scanId])(dispatch);
     }
 };

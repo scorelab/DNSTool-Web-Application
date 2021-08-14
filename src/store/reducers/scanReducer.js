@@ -69,6 +69,15 @@ const scanReducer = (state = initState, action) => {
                     isloading: false,
                 }
             }
+        case actions.GET_ZONE_LIST_CLEAR:
+            return {
+                ...state,
+                zonelist: {
+                    isloading: false,
+                    data: [],
+                    error: null
+                }
+            }
         //Get GCP Zone List
         case actions.GET_GCP_ZONES_START:
             return {
@@ -95,6 +104,15 @@ const scanReducer = (state = initState, action) => {
                     ...state.gcpzones,
                     isloading: false,
                     error: action.payload
+                }
+            }
+        case actions.GET_GCP_ZONES_CLEAR:
+            return {
+                ...state,
+                gcpzones: {
+                    isloading: false,
+                    data: [],
+                    error: null,
                 }
             }
         //Create Scan
@@ -159,6 +177,15 @@ const scanReducer = (state = initState, action) => {
                     ...state.scanlist,
                     isloading: false,
                     error: action.payload
+                }
+            }
+        case actions.GET_SCANS_CLEAR:
+            return {
+                ...state,
+                scanlist: {
+                    isloading: false,
+                    data: [],
+                    error: null
                 }
             }
         //Delete Scan
