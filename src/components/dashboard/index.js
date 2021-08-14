@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Navbar from '../layout/navbar'
 import Grid from '@material-ui/core/Grid';
 import ScanTable from '../scanTable';
-import {  useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 import SecondaryNavbar from '../layout/secondaryNavbar';
@@ -15,6 +15,7 @@ function Dashboard() {
 
 
     const deleteScanResult = useSelector((state) => state.scanData.deleteScan)
+    const createScanMsg = useSelector((state) => state.scanData.createScan)
 
     const [open, setOpen] = useState(false);
     const [snackBarOptions, setSnackbarOptions] = useState({
@@ -27,7 +28,6 @@ function Dashboard() {
     };
 
     useEffect(() => {
-        console.log(deleteScanResult)
         if (deleteScanResult.error) {
             setSnackbarOptions({
                 color: 'error',
@@ -41,7 +41,14 @@ function Dashboard() {
             })
             setOpen(true)
         }
-    }, [deleteScanResult])
+        if (createScanMsg.message) {
+            setSnackbarOptions({
+                color: 'success',
+                msg: createScanMsg.message
+            })
+            setOpen(true)
+        }
+    }, [deleteScanResult.message, deleteScanResult.error, createScanMsg.message])
 
     return (
         <>

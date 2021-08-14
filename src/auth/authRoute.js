@@ -1,6 +1,4 @@
 import { connectedRouterRedirect } from 'redux-auth-wrapper/history4/redirect'
-import locationHelperBuilder from 'redux-auth-wrapper/history4/locationHelper'
-const locationHelper = locationHelperBuilder({})
 
 const AuthRoute = connectedRouterRedirect({
     redirectPath: '/verify-email',

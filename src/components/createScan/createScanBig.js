@@ -88,15 +88,8 @@ function CreateScanBig({ handleClose }) {
             })
             setOpen(true)
         } else if (createScanMsg.message) {
-            setSnackbarOptions({
-                color: 'success',
-                msg: createScanMsg.message
-            })
-            setOpen(true)
             getScans(firebase)(dispatch)
-            setTimeout(() => {
-                handleClose()
-            }, 3000)
+            handleClose()
         }
     }, [createScanMsg])
 
