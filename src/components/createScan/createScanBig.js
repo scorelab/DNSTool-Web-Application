@@ -80,7 +80,6 @@ function CreateScanBig({ handleClose }) {
     };
 
     useEffect(() => {
-        console.log(createScanMsg)
         if (createScanMsg.error) {
             setSnackbarOptions({
                 color: 'error',

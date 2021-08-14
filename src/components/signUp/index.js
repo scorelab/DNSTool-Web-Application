@@ -147,6 +147,7 @@ function SignUp() {
             checkAllFields.map((i) => {
                 if (state[i] === '') {
                     checkFieldFlag = true
+                    return checkFieldFlag
                 }
             })
 
@@ -155,6 +156,7 @@ function SignUp() {
                 if (i !== 'correctEmailFormat') {
                     if (errorState[i] !== "") {
                         ErrorFlag = true
+                        return ErrorFlag
                     }
                 }
             })
@@ -169,7 +171,6 @@ function SignUp() {
                 if (isStrongPassword === true) {
                     let userDetails = state
                     delete userDetails['accept']
-                    console.log("sign up started")
                     delete userDetails.reEnteredPassword
                     signup(userDetails)(dispatch)
                 } else {

@@ -100,34 +100,35 @@ function Login() {
                         {/*  <div style={{ width: '100%', backgroundColor: 'rgba(9, 109, 217, 0.33)', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}> */}
                         <Typography variant="h5" style={{ marginTop: '10px' }} >Login</Typography>
                         {/*   </div> */}
-
-                        <Stack alignItems='center' spacing={2} style={{ marginTop: '20px' }}>
-                            <TextField
-                                id="Email"
-                                label="Email"
-                                variant="outlined"
-                                name="email"
-                                error={errorstate.email.length > 0 ? true : false}
-                                helperText={errorstate.email}
-                                size="small"
-                                sx={{ width: '260px' }}
-                                onChange={handleChange}
-                                onBlur={checkFieldIsEmpty}
-                            />
-                            <TextField
-                                id="Password"
-                                label="Password"
-                                variant="outlined"
-                                name="password"
-                                type="password"
-                                sx={{ width: '260px' }}
-                                size="small"
-                                error={errorstate.password.length > 0 ? true : false}
-                                helperText={errorstate.password}
-                                onChange={handleChange}
-                                onBlur={checkFieldIsEmpty}
-                            />
-                        </Stack>
+                        <form>
+                            <Stack alignItems='center' spacing={2} style={{ marginTop: '20px' }}>
+                                <TextField
+                                    id="Email"
+                                    label="Email"
+                                    variant="outlined"
+                                    name="email"
+                                    error={errorstate.email.length > 0 ? true : false}
+                                    helperText={errorstate.email}
+                                    size="small"
+                                    sx={{ width: '260px' }}
+                                    onChange={handleChange}
+                                    onBlur={checkFieldIsEmpty}
+                                />
+                                <TextField
+                                    id="Password"
+                                    label="Password"
+                                    variant="outlined"
+                                    name="password"
+                                    type="password"
+                                    sx={{ width: '260px' }}
+                                    size="small"
+                                    error={errorstate.password.length > 0 ? true : false}
+                                    helperText={errorstate.password}
+                                    onChange={handleChange}
+                                    onBlur={checkFieldIsEmpty}
+                                />
+                            </Stack>
+                        </form>
                         <ButtonComponent style={{ margin: '30px 0px 10px 0px' }} onClick={handleSubmit} />
                         <div style={{ width: '90%' }}>
                             <Divider>OR</Divider>

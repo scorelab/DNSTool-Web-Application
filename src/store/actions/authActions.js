@@ -62,7 +62,6 @@ export const signup = (details) => async dispatch => {
         await axios.post('/register', details, config);
         dispatch({ type: actions.SIGNUP_SUCCESS });
     } catch (err) {
-        console.log(err.response.data.message)
         dispatch({
             type: actions.SIGNUP_FAIL,
             payload: err.response.data.message

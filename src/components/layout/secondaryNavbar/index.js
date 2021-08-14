@@ -30,7 +30,6 @@ function SecondaryNavbar() {
     const [isActive, setIsActive] = useState(false)
 
     useEffect(() => {
-        console.log(selectedScans)
         if (selectedScans.length > 0 && scanDataList[selectedScans[0]]['state'] === 'active') setIsActive(true)
         else setIsActive(false)
     }, [selectedScans])
@@ -74,7 +73,6 @@ function SecondaryNavbar() {
     };
 
     useEffect(() => {
-        console.log(updateStateMsg)
         if (updateStateMsg.error) {
             setSnackbarOptions({
                 color: 'error',
