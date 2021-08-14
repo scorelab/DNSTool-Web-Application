@@ -76,3 +76,20 @@ export const signOut = (firebase) => async dispatch => {
         })
     });
 }
+
+export const sendEmailVerification = (firebase) => async dispatch => {
+    firebase.auth().onAuthStateChanged(function (user) {
+        user.sendEmailVerification()
+            .then(
+                dispatch({
+                    type: actions.SEND_EMAIL_VERIFICATION,
+                    payload: "Verification Email Sent"
+                })
+            ).catch(() => {
+                dispatch({
+                    type: actions.SEND_EMAIL_VERIFICATION_FAIL,
+                    payload: "Error, Something went wrong, Retry Again"
+                })
+            })
+    })
+}
