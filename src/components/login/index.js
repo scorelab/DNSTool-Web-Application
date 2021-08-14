@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
 import { useHistory } from "react-router-dom";
 import { signin } from '../../store/actions';
+import { Link } from "react-router-dom";
 
 function Login() {
 
@@ -133,7 +134,10 @@ function Login() {
                         </div>
                         <Stack direction="row" spacing={1} style={{ marginBottom: '6px' }}>
                             <Typography color="#5f5f5f" fontSize="12px">Don't have an account?</Typography>
-                            <Typography color="#0b71df" fontSize="12px">Sign Up</Typography>
+                            <Link to='/signup'>
+                                <Typography color="#0b71df" fontSize="12px">Sign Up</Typography>
+                            </Link>
+
                         </Stack>
 
                     </Stack>
