@@ -35,10 +35,18 @@ export const checkemail = (email) => async dispatch => {
         await axios.post('/check-email', email, config);
         dispatch({ type: actions.CHECK_EMAIL_SUCCESS });
     } catch (err) {
-        dispatch({
-            type: actions.CHECK_EMAIL_FAIL,
-            payload: err.response.data.message && err.response.data.message._schema[0]
-        });
+        if ('email' in err.response.data.message) {
+            dispatch({
+                type: actions.CHECK_EMAIL_FAIL,
+                payload: err.response.data.message && err.response.data.message.email
+            });
+        } else {
+            dispatch({
+                type: actions.CHECK_EMAIL_FAIL,
+                payload: err.response.data.message && err.response.data.message._schema[0]
+            });
+        }
+
     }
 };
 
