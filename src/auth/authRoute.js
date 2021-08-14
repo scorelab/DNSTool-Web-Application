@@ -3,7 +3,7 @@ import locationHelperBuilder from 'redux-auth-wrapper/history4/locationHelper'
 const locationHelper = locationHelperBuilder({})
 
 const AuthRoute = connectedRouterRedirect({
-    redirectPath: (state, ownProps) => locationHelper.getRedirectQueryParam(ownProps) || '/dashboard',
+    redirectPath: '/verify-email',
     allowRedirectBack: false,
     authenticatedSelector: state => state.firebase.auth.isEmpty,
     wrapperDisplayName: 'UserIsNotAuthenticated',
