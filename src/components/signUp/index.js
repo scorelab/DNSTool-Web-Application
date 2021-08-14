@@ -147,7 +147,6 @@ function SignUp() {
             checkAllFields.map((i) => {
                 if (state[i] === '') {
                     checkFieldFlag = true
-                    return checkFieldFlag
                 }
             })
 
@@ -156,7 +155,6 @@ function SignUp() {
                 if (i !== 'correctEmailFormat') {
                     if (errorState[i] !== "") {
                         ErrorFlag = true
-                        return ErrorFlag
                     }
                 }
             })

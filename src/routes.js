@@ -12,6 +12,7 @@ import Dashboard from './components/dashboard';
 import VerifyEmail from './components/EmailVerfication';
 import PrivateIsNotVerifiedRoute from './auth/privateRouteIsNotVerfied';
 import PrivateIsVerifiedRoute from './auth/privateRouteIsVerified';
+import NotFound from './components/notFound';
 
 function Routes() {
   return (
@@ -22,6 +23,7 @@ function Routes() {
         <Route exact path="/dashboard" component={PrivateIsVerifiedRoute(Dashboard)} />
         <Route exact path="/login" component={AuthRoute(Login)} />
         <Route exact path="/signup" component={AuthRoute(SignUp)} />
+        <Route component={NotFound} />
       </Switch>
     </Router>
   )
