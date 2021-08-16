@@ -56,8 +56,15 @@ function CreateScanBig({ handleClose }) {
     }
 
     const submitForm = () => {
-        createScan(selectedList, firebase)(dispatch)
-        // handleClose()
+        if (selectedList.regions.length > 0 && selectedList.zones.length > 0) {
+            createScan(selectedList, firebase)(dispatch)
+        } else {
+            setSnackbarOptions({
+                color: 'error',
+                msg: 'Please select all the fields'
+            })
+            setOpen(true)
+        }
     }
 
     useEffect(() => {
