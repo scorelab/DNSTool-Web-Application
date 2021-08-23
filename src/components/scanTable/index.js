@@ -57,7 +57,7 @@ function ScanTable() {
     const [SelectedRows, setSelectedRows] = useState([])
 
     const selectRows = async (e) => {
-        setSelectedRows(e.selectionModel)
+        setSelectedRows(e)
     }
 
     useEffect(() => {
