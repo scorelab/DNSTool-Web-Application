@@ -1,4 +1,5 @@
 import * as actions from './actionTypes';
+import { API_HOST } from '../../config/config';
 const axios = require('axios');
 
 export const signin = (email, password, firebase, history, location) => async dispatch => {
@@ -32,7 +33,7 @@ export const checkemail = (email) => async dispatch => {
     };
 
     try {
-        await axios.post('/check-email', email, config);
+        await axios.post(API_HOST + '/check-email', email, config);
         dispatch({ type: actions.CHECK_EMAIL_SUCCESS });
     } catch (err) {
         if ('email' in err.response.data.message) {
@@ -59,7 +60,7 @@ export const signup = (details) => async dispatch => {
     };
 
     try {
-        await axios.post('/register', details, config);
+        await axios.post(API_HOST + '/register', details, config);
         dispatch({ type: actions.SIGNUP_SUCCESS });
     } catch (err) {
         dispatch({
@@ -76,27 +77,11 @@ export const signOut = (firebase) => async dispatch => {
         dispatch({ type: actions.GET_GCP_ZONES_CLEAR })
         dispatch({ type: actions.GET_ZONE_LIST_CLEAR })
         dispatch({ type: actions.CLEAR_SELECTED_SCANS_QUEUE })
+       // window.location.reload();
     }).catch((error) => {
         dispatch({
             type: actions.SIGN_OUT_FAIL,
             payload: error
         })
     });
-}
-
-export const sendEmailVerification = (firebase) => async dispatch => {
-    firebase.auth().onAuthStateChanged(function (user) {
-        user.sendEmailVerification()
-            .then(
-                dispatch({
-                    type: actions.SEND_EMAIL_VERIFICATION,
-                    payload: "Verification Email Sent"
-                })
-            ).catch(() => {
-                dispatch({
-                    type: actions.SEND_EMAIL_VERIFICATION_FAIL,
-                    payload: "Error, Something went wrong, Retry Again"
-                })
-            })
-    })
 }

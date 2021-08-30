@@ -9,7 +9,7 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 import { ReactReduxFirebaseProvider } from "react-redux-firebase";
-import firebaseConfig from './config/config';
+import { firebaseConfig } from './config/config';
 
 const rrfConfig = {
 };

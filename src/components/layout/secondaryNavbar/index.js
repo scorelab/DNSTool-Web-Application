@@ -30,9 +30,9 @@ function SecondaryNavbar() {
     const [isActive, setIsActive] = useState(false)
 
     useEffect(() => {
-        if (selectedScans.length > 0 && scanDataList[selectedScans[0]]['state'] === 'active') setIsActive(true)
+        if (selectedScans.length > 0 && scanDataList[selectedScans[0]]?.state === 'active') setIsActive(true)
         else setIsActive(false)
-    }, [selectedScans])
+    }, [selectedScans,scanDataList])
 
     const [openCreateScanModal, setOpenCreateScanModal] = useState(false)
     const handleOpen = () => setOpenCreateScanModal(true);
@@ -90,7 +90,7 @@ function SecondaryNavbar() {
 
 
     const changeActiveState = () => {
-        if (selectedScans.length > 1) {
+        if (selectedScans?.length > 1) {
             setSnackbarOptions({
                 color: 'warning',
                 msg: 'Please select only one scan'
@@ -112,11 +112,11 @@ function SecondaryNavbar() {
                                 <Button size="small" onClick={handleOpen}>Create</Button>
                                 {
                                     isActive ?
-                                        (<Button onClick={changeActiveState} disabled={(selectedScans.length) > 0 ? false : true} size="small">Stop</Button>)
+                                        (<Button onClick={changeActiveState} disabled={(selectedScans?.length) > 0 ? false : true} size="small">Stop</Button>)
                                         :
-                                        (<Button onClick={changeActiveState} disabled={(selectedScans.length) > 0 ? false : true} size="small">Start</Button>)
+                                        (<Button onClick={changeActiveState} disabled={(selectedScans?.length) > 0 ? false : true} size="small">Start</Button>)
                                 }
-                                <Button disabled={(selectedScans.length) > 0 ? false : true} onClick={handleOpenDeletePrompt} size="small">Delete</Button>
+                                <Button disabled={(selectedScans?.length) > 0 ? false : true} onClick={handleOpenDeletePrompt} size="small">Delete</Button>
                                 <Button size="small" onClick={openDrawer}>News</Button>
                             </>
                         ) : (
@@ -126,11 +126,11 @@ function SecondaryNavbar() {
                                     <Button startIcon={<CreateIcon />} size="small" onClick={handleOpen}>Create a Scan</Button>
                                     {
                                         isActive ?
-                                            (<Button startIcon={<PauseIcon />} onClick={changeActiveState} disabled={(selectedScans.length) > 0 ? false : true} size="small">Stop</Button>)
+                                            (<Button startIcon={<PauseIcon />} onClick={changeActiveState} disabled={(selectedScans?.length) > 0 ? false : true} size="small">Stop</Button>)
                                             :
-                                            (<Button startIcon={<PlayArrowIcon />} onClick={changeActiveState} disabled={(selectedScans.length) > 0 ? false : true} size="small">Start</Button>)
+                                            (<Button startIcon={<PlayArrowIcon />} onClick={changeActiveState} disabled={(selectedScans?.length) > 0 ? false : true} size="small">Start</Button>)
                                     }
-                                    <Button startIcon={<DeleteIcon />} disabled={(selectedScans.length) > 0 ? false : true} onClick={handleOpenDeletePrompt} size="small">Delete</Button>
+                                    <Button startIcon={<DeleteIcon />} disabled={(selectedScans?.length) > 0 ? false : true} onClick={handleOpenDeletePrompt} size="small">Delete</Button>
                                 </Stack>
                                 <Button startIcon={<AnnouncementIcon />} onClick={openDrawer} size="small" >News</Button>
                             </>

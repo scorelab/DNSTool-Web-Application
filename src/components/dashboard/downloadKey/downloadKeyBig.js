@@ -40,7 +40,7 @@ function DownloadKeyBig({ handleClose, scanId }) {
                 <Stack spacing={2}>
                     <Typography variant="h6">Download key</Typography>
                     <Alert severity="error">Lorem ipsum dolor sit amet, consectetur adipiscing elit. !</Alert>
-                    <Typography fontSize="14px">Store this file securely, because your new key can't be revovered if lost</Typography>
+                    <Typography fontSize="14px">Store this file securely, because your new key can't be recovered if lost</Typography>
                     <Stack direction="row" justifyContent="flex-end" spacing={2} xs={{ marginTop: '10px' }}>
                         <Button variant="text" onClick={() => handleClose()}>Cancel</Button>
                         <ButtonComponent />

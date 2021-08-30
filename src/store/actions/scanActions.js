@@ -1,10 +1,11 @@
 import * as actions from './actionTypes';
+import { API_HOST } from '../../config/config';
 const axios = require('axios');
 
 export const getZoneList = (keyword) => async dispatch => {
     dispatch({ type: actions.GET_ZONE_LIST_START });
     try {
-        const response = await axios.get(`/zones/${keyword}`);
+        const response = await axios.get(API_HOST + `/zones/${keyword}`);
         dispatch({
             type: actions.GET_ZONE_LIST_SUCCESS,
             payload: response.data.data
@@ -20,7 +21,7 @@ export const getZoneList = (keyword) => async dispatch => {
 export const getGCPZoneList = (keyword) => async dispatch => {
     dispatch({ type: actions.GET_GCP_ZONES_START });
     try {
-        const response = await axios.get(`/gcp-zones/${keyword}`);
+        const response = await axios.get(API_HOST + `/gcp-zones/${keyword}`);
         dispatch({
             type: actions.GET_GCP_ZONES_SUCCESS,
             payload: response.data.data
@@ -45,7 +46,7 @@ export const createScan = (scanDetails, firebase) => async dispatch => {
     };
 
     try {
-        const response = await axios.post('/scans', scanDetails, config);
+        const response = await axios.post(API_HOST + '/scans', scanDetails, config);
         dispatch({
             type: actions.CREATE_SCAN_SUCCESS,
             payload: response.data.message
@@ -73,7 +74,8 @@ export const getScans = (firebase) => async dispatch => {
     };
 
     try {
-        const response = await axios.get('/scans', config);
+        const response = await axios.get(API_HOST + '/scans', config);
+        console.log(response)
         dispatch({
             type: actions.GET_SCANS_SUCCESS,
             payload: response.data.data
@@ -105,7 +107,7 @@ export const deleteScan = (scanIds, firebase) => async dispatch => {
     try {
         let responses = []
         scanIds.map(async id => {
-            let tempResponse = await axios.delete(`/scans/${id}`, config);
+            let tempResponse = await axios.delete(API_HOST + `/scans/${id}`, config);
             responses.push(tempResponse)
         })
 
@@ -119,8 +121,11 @@ export const deleteScan = (scanIds, firebase) => async dispatch => {
         });
 
         await clearSelecetedScansQueue()(dispatch);
-        await getScans(firebase)(dispatch);
+        setTimeout(() => {
+            getScans(firebase)(dispatch);
+        }, 500)
 
+        //window.location.reload();
     } catch (err) {
         dispatch({
             type: actions.DELETE_SCAN_FAIL,
@@ -150,7 +155,7 @@ export const downloadKeyFile = (scanId, firebase) => async dispatch => {
     };
 
     try {
-        const response = await axios.get(`/service-account/${scanId}`, config);
+        const response = await axios.get(API_HOST + `/service-account/${scanId}`, config);
         dispatch({
             type: actions.DOWNLOAD_FILE_SUCCESS,
         });
@@ -199,7 +204,7 @@ export const updateScanState = (scanId, stateName, firebase) => async dispatch =
     }
 
     try {
-        await axios.patch(`/scans/${scanId}`, data, config);
+        await axios.patch(API_HOST + `/scans/${scanId}`, data, config);
         dispatch({
             type: actions.UPDATE_SCAN_SUCCESS,
             payload: "Successfully Updated"
